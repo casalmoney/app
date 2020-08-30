@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary_color"> #00C251</color>
+    <color name="brand_secondary_color">#75C663</color>
+    <color name="brand_tertiary_color">#A9D695</color>
+    <color name="brand_dark_color">#0B3504</color>
+
+    <color name="brand_white_color">#FFFFFF</color>
+
+
+    <color name= "transparent_color">#00FFFFFF</color>
+
+    <color name="layout_primary_color"> #FFFFFF</color>
+    <color name="layout_secondary_color"> #AAAAAA</color>
+    <color name="layout_tertiary_color"> #BBBBBB</color>
+    <color name="layout_dark_color"> #000000</color>
+
+    <color name="lightbase_dark_gray">#01333E</color>
+    <color name="lightbase_lighter_gray">#E3E3E3</color>
+    <color name="lightbase_light_color">#F1F3F7</color>
+    <color name ="lightbase_sunny_light">#FFFFFF</color>
+
+    <color name="text_color">#3C3C3C</color>
+    <color name="denotive_error">#F7486C </color>
+
+</resources>
+
+    <!--    1. Primary-->
+    <!--    2. Primary Variant-->
+    <!--    3. Secondary-->
+    <!--    4. Secondary Variant-->
+    <!--    5. Background-->
+    <!--    6. Surface-->
+    <!--    7. Error-->
+    <!--    8. On Primary-->
+    <!--    9. On Secondary-->
+    <!--    10. On Background-->
+    <!--    11. On Surface-->
+    <!--    12. On Erro-->

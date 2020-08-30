@@ -1,0 +1,33 @@
+<resources>
+    <string name="name">Nome</string>
+    <string name="app_name">CasalMoney</string>
+    <string name="login_title_label">Login</string>
+    <string name="login_subtitle_label">Seja bem vindo!</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Senha</string>
+    <string name="login_button_signin">Entrar</string>
+    <string name="login_create_account">Não tem um conta? Cadastrar-se</string>
+    <string name="login_description_logo">Logo do aplicativo</string>
+    <string name="recover_password_hint">Digite aqui seu e-mail</string>
+    <string name="recover_password_button_title">Enviar e-mail</string>
+    <string name="forgot_password_button">Recuperar Senha</string>
+    <string name="email_not_valid">Por favor insira um e-mail válido</string>
+    <string name="invalid_email">E-mail inválido</string>
+    <string name="email_required">E-mail é obrigatório</string>
+    <string name="password_required">Senha é obrigatória</string>
+    <string name="recover_password_message">Em breve você receberá um e-mail para recuperar sua senha</string>
+    <string name="create_account_success_message">Seja bem vindo, sua conta está criada!</string>
+    <string name="everything_ok">Tudo certo</string>
+    <string name="signup">Cadastrar</string>
+    <string name="signup_label">Cadastro</string>
+    <string name="signup_description">Seus dados estão seguros conosco ;)</string>
+    <string name="signup_description_back_button">Botão voltar</string>
+    <string name="signup_repeat_password">Repita a senha</string>
+    <string name="forgot_password_title">Esqueceu sua senha?</string>
+    <string name="forgot_password_subtitle">Não se preocupe, vamos te lembrar!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_home_title">Página Inicial</string>
+    <string name="tab_settings_title">Configurações</string>
+    <string name="splash_title">Com o Casal Money a gestão financeira do casal ficou mais fácil!</string>
+</resources>

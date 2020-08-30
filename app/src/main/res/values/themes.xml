@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:colorAccent">@color/brand_primary_color</item>
+
+        <item name="colorPrimary">@color/brand_primary_color</item>
+        <item name="colorPrimaryVariant">@color/brand_secondary_color</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@color/brand_dark_color</item>
+
+        <item name="colorSecondary">@color/layout_primary_color</item>
+        <item name="colorSecondaryVariant">@color/layout_secondary_color</item>
+        <item name="colorOnSecondary">@color/layout_tertiary_color</item>
+
+        <item name="colorSurface">@android:color/white</item>
+        <item name="colorOnSurface">@color/lightbase_lighter_gray</item>
+
+        <item name="colorPrimarySurface">@color/brand_primary_color</item>
+        <item name="colorOnPrimarySurface">#313934</item>
+
+        <item name="backgroundColor">@color/lightbase_sunny_light</item>
+        <item name="colorOnBackground">@color/lightbase_lighter_gray</item>
+
+        <item name="colorError">@color/denotive_error</item>
+        <item name="colorOnError">#000000</item>
+
+        <item name="primaryButtonStyle">@style/Widget.MaterialComponents.Button.OutlinedButton.PrimaryButton</item>
+        <item name="secondaryButtonStyle">@style/Widget.MaterialComponents.Button.OutlinedButton.SecondaryButton</item>
+        <item name="greenButtonStyle">@style/Widget.MaterialComponents.Button.OutlinedButton.GreenButton</item>
+
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button.PrimaryButton</item>
+
+        <item name="android:statusBarColor">@color/brand_dark_color</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.Dark">
+        <item name="backgroundColor">@color/layout_dark_color</item>
+    </style>
+
+</resources>
