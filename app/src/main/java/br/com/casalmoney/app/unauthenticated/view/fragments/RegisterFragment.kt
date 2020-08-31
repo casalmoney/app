@@ -5,11 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.databinding.FragmentRegisterBinding
+import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.viewmodel.RegisterViewModel
 
 class RegisterFragment : Fragment() {
@@ -36,11 +40,28 @@ class RegisterFragment : Fragment() {
             return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        observer()
+    }
+
     fun back (view: View) {
         findNavController().popBackStack()
     }
 
     fun register(view: View) {
-
+        viewModel.register()
     }
+
+    private fun observer() {
+        viewModel.responseCreateUser.observe(viewLifecycleOwner ,
+            Observer{
+            if(!it.second.message.isNullOrBlank() || !it.second.message.isNullOrEmpty()) {
+                Toast.makeText(context, it.second.message, Toast.LENGTH_SHORT).show()
+            } else {
+                TODO("Call dashboard page")
+            }
+        })
+    }
+
 }

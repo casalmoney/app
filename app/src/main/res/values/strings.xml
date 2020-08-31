@@ -12,9 +12,14 @@
     <string name="recover_password_button_title">Enviar e-mail</string>
     <string name="forgot_password_button">Recuperar Senha</string>
     <string name="email_not_valid">Por favor insira um e-mail válido</string>
+
+
+    <!--Requireed-->
     <string name="invalid_email">E-mail inválido</string>
     <string name="email_required">E-mail é obrigatório</string>
     <string name="password_required">Senha é obrigatória</string>
+    <string name="name_required">Nome é obrigatória</string>
+
     <string name="recover_password_message">Em breve você receberá um e-mail para recuperar sua senha</string>
     <string name="create_account_success_message">Seja bem vindo, sua conta está criada!</string>
     <string name="everything_ok">Tudo certo</string>

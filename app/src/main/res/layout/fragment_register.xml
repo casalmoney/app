@@ -58,89 +58,75 @@
             android:layout_marginHorizontal="16dp"
             />
 
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="80dp"
-            android:ems="10"
-            android:hint="@string/name"
-            android:inputType="textEmailAddress"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColorHint="?attr/colorPrimaryVariant"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvLabelDecription"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="285dp"
-            android:background="@drawable/et_input"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            />
+            android:layout_marginTop="60dp"
+            android:textColorHint="?attr/colorPrimaryVariant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLabelDecription">
 
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="@string/login_email_hint"
-            android:inputType="textEmailAddress"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@android:color/darker_gray"
-            android:textColorHint="?attr/colorPrimaryVariant"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etName"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="285dp"
-            android:background="@drawable/et_input"
-            android:layout_marginHorizontal="16dp"
-            />
+            <EditText
+                android:id="@+id/etRegisterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_input"
+                android:hint="@string/name"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_color"
+                android:textColorHint="@android:color/darker_gray"
+                android:importantForAutofill="no"
+                android:text="@={viewModel.user.name}"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="@string/login_password_hint"
-            android:inputType="textPassword"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@android:color/darker_gray"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:textColorHint="?attr/colorPrimaryVariant"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etEmail"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="285dp"
-            android:background="@drawable/et_input"
-            android:layout_marginHorizontal="16dp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutRegisterName">
 
-        <EditText
-            android:id="@+id/etRepeatPassword"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="@string/signup_repeat_password"
-            android:inputType="textPassword"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@android:color/darker_gray"
+            <EditText
+                android:id="@+id/etRegisterEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_input"
+                android:hint="@string/login_email_hint"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_color"
+                android:textColorHint="@android:color/darker_gray"
+                android:importantForAutofill="no"
+                android:text="@={viewModel.user.email}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:passwordToggleEnabled="true"
             android:textColorHint="?attr/colorPrimaryVariant"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPassword"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="285dp"
-            android:background="@drawable/et_input"
-            android:layout_marginHorizontal="16dp"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutRegisterEmail">
+
+            <EditText
+                android:id="@+id/editTextRegisterPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_input"
+                android:hint="@string/login_password_hint"
+                android:inputType="textPassword"
+                android:textColor="@color/text_color"
+                android:importantForAutofill="no"
+                android:text="@={viewModel.user.password}"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btSignUp"
@@ -153,7 +139,7 @@
             style="?attr/greenButtonStyle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etRepeatPassword" />
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutRegisterPassword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
