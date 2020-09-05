@@ -75,7 +75,8 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text_color"
                 android:textColorHint="@android:color/darker_gray"
-                android:importantForAutofill="no"/>
+                android:importantForAutofill="no"
+                android:text="@={viewModel.user.email}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -97,7 +98,8 @@
                 android:hint="@string/login_password_hint"
                 android:inputType="textPassword"
                 android:textColor="@color/text_color"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:text="@={viewModel.user.password}"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -106,7 +108,7 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="30dp"
-            android:onClick="@{ fragment::login }"
+            android:onClick="@{fragment::login}"
             android:text="@string/login_button_signin"
             style="?attr/greenButtonStyle"
             app:layout_constraintStart_toStartOf="parent"

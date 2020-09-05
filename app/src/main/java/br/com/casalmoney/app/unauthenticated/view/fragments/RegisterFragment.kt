@@ -56,12 +56,12 @@ class RegisterFragment : Fragment() {
     private fun observer() {
         viewModel.responseCreateUser.observe(viewLifecycleOwner ,
             Observer{
-            if(!it.second.message.isNullOrBlank() || !it.second.message.isNullOrEmpty()) {
-                Toast.makeText(context, it.second.message, Toast.LENGTH_SHORT).show()
+            if(it.first) {
+                Toast.makeText(context, R.string.create_account_success_message, Toast.LENGTH_SHORT).show()
             } else {
-                TODO("Call dashboard page")
+                Toast.makeText(context, it.second?.message, Toast.LENGTH_SHORT).show()
             }
         })
-    }
+}
 
 }

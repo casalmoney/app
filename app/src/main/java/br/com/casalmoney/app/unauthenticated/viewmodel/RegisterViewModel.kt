@@ -17,8 +17,8 @@ class RegisterViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val interactor = RegisterInteractor()
 
-    private val mCreateUser = MutableLiveData<Pair<User?, SignupException>>()
-    val responseCreateUser: LiveData<Pair<User?, SignupException>> = mCreateUser
+    private val mCreateUser = MutableLiveData<Pair<Boolean, SignupException?>>()
+    val responseCreateUser: LiveData<Pair<Boolean, SignupException?>> = mCreateUser
     val user = MutableLiveData(User())
 
     fun register() {
@@ -28,20 +28,12 @@ class RegisterViewModel(val app: Application) : AndroidViewModel(app) {
 
 
         viewModelScope.launch {
-            val resultRegister = interactor.register(
-                    User(
-                        password = user.value?.password.toString(),
-                        email = user.value?.email.toString(),
-                        name = user.value?.name.toString()
-                    )
-                )
-
+            val resultRegister = interactor.register(user.value!!)
 
             if (!resultRegister.second?.message.isNullOrEmpty() || !resultRegister.second?.message.isNullOrEmpty()) {
-                mCreateUser.value = Pair(null, SignupException(message = resultRegister.second?.message, code = resultRegister.second?.code))
+                mCreateUser.value = Pair(false, SignupException(message = resultRegister.second?.message, code = resultRegister.second?.code))
             } else {
-                val a = resultRegister.first
-//                mCreateUser.value = Pair(null, SignupException(message = resultRegister.second?.message, code = resultRegister.second?.code))
+                mCreateUser.value = Pair(true, null)
             }
         }
 
@@ -49,22 +41,22 @@ class RegisterViewModel(val app: Application) : AndroidViewModel(app) {
 
     private fun inputsRolesIsOk() : Boolean{
         if(TextUtils.isEmpty(user.value?.email)) {
-            mCreateUser.value =  Pair(null, SignupException(message = app.getString(R.string.email_required), code = 1))
+            mCreateUser.value =  Pair(false, SignupException(message = app.getString(R.string.email_required), code = 1))
             return false
         }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(user.value?.email).matches()) {
-            mCreateUser.value =  Pair(null, SignupException(message = app.getString(R.string.email_not_valid), code = 2))
+            mCreateUser.value =  Pair(false, SignupException(message = app.getString(R.string.email_not_valid), code = 2))
             return false
         }
 
         if(TextUtils.isEmpty(user.value?.password)) {
-            mCreateUser.value =  Pair(null, SignupException(message = app.getString(R.string.password_required), code = 3))
+            mCreateUser.value =  Pair(false, SignupException(message = app.getString(R.string.password_required), code = 3))
             return false
         }
 
         if(TextUtils.isEmpty(user.value?.name)) {
-            mCreateUser.value =  Pair(null, SignupException(message = app.getString(R.string.name_required), code = 4))
+            mCreateUser.value =  Pair(false, SignupException(message = app.getString(R.string.name_required), code = 4))
             return false
         }
 
