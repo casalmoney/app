@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/authenticated"
+    android:label="authenticated"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@id/homeFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+
+    <fragment
+        android:id="@id/statementFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.StatementFragment"
+        android:label="StatementFragment"
+        tools:layout="@layout/fragment_statement"/>
+
+    <fragment
+        android:id="@id/helpFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.HelpFragment"
+        android:label="HelpFragment"
+        tools:layout="@layout/fragment_help"/>
+</navigation>

@@ -35,4 +35,6 @@
     <string name="tab_home_title">Página Inicial</string>
     <string name="tab_settings_title">Configurações</string>
     <string name="splash_title">Com o Casal Money a gestão financeira do casal ficou mais fácil!</string>
+    <string name="tab_statement_title">Extrato</string>
+    <string name="tab_help_title">Ajuda</string>
 </resources>
