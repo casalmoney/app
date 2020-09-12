@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brand_primary_color"> #00C251</color>
+    <color name="brand_primary_color">#00C251</color>
     <color name="brand_secondary_color">#75C663</color>
     <color name="brand_tertiary_color">#A9D695</color>
     <color name="brand_dark_color">#0B3504</color>
-
+    <color name="brand_primary_color_opac">#58C174</color>
     <color name="brand_white_color">#FFFFFF</color>
 
 
@@ -16,7 +16,7 @@
     <color name="layout_dark_color"> #000000</color>
 
     <color name="lightbase_dark_gray">#01333E</color>
-    <color name="lightbase_lighter_gray">#E3E3E3</color>
+    <color name="lightbase_lighter_gray">#AAAAAA</color>
     <color name="lightbase_light_color">#F1F3F7</color>
     <color name ="lightbase_sunny_light">#FFFFFF</color>
 
