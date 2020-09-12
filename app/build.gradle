@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -55,6 +54,7 @@ dependencies {
     /** ReactiveX */
     implementation "io.reactivex.rxjava3:rxjava:3.0.6"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
 
     /** Architecture components*/
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -68,7 +68,6 @@ dependencies {
     /** Firebase sdk*/
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
 
     /** Test dependencies*/
     testImplementation 'junit:junit:4.13'

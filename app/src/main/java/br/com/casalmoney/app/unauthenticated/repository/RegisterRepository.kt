@@ -1,27 +1,29 @@
 package br.com.casalmoney.app.unauthenticated.repository
 
-
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.SignupException
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import kotlinx.coroutines.tasks.await
+import io.reactivex.rxjava3.core.Observable
 
 class RegisterRepository() {
-    suspend fun register (user: User): Pair<AuthResult?, SignupException?>{
-        val mAuth = FirebaseAuth.getInstance()
+    val mAuth = FirebaseAuth.getInstance()
 
-        return try {
-            val data = mAuth.createUserWithEmailAndPassword(user.email, user.password).await()
-            val userUpdate =  UserProfileChangeRequest.Builder().setDisplayName(user.name).build()
+    fun register (user: User): Observable<SignupException?> {
 
+
+        val task = mAuth.createUserWithEmailAndPassword(user.email, user.password)
+        val userUpdate =  UserProfileChangeRequest.Builder().setDisplayName(user.name).build()
+
+        return Observable.create { emitter ->
             val currentUser = mAuth.currentUser
+
             currentUser?.updateProfile(userUpdate)
 
-            return Pair(data, null)
-        } catch (e : Exception) {
-            return return Pair(null, SignupException(-1001, e.localizedMessage))
+            task.addOnCompleteListener {
+                emitter.onNext(null?: SignupException(message = it.exception?.localizedMessage, code = 1002))
+                emitter.onComplete()
+            }
         }
     }
 }

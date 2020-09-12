@@ -56,12 +56,13 @@ class RegisterFragment : Fragment() {
     private fun observer() {
         viewModel.responseCreateUser.observe(viewLifecycleOwner ,
             Observer{
-            if(it.first) {
+            if(it?.message.isNullOrEmpty() || it?.message.isNullOrBlank()) {
                 Toast.makeText(context, R.string.create_account_success_message, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_registerFragment_to_mainActivity)
             } else {
-                Toast.makeText(context, it.second?.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, it?.localizedMessage, Toast.LENGTH_SHORT).show()
             }
         })
-}
+    }
 
 }
