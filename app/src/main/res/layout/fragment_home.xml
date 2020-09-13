@@ -133,6 +133,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_label_money" />
 
         <ImageView
+            android:id="@+id/iv_fix_bill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="135dp"
@@ -140,7 +141,44 @@
             android:elevation="11dp"
             android:src="@drawable/ic_card_bill_fix"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_card_expenses"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.07"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:cardCornerRadius="8dp"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iv_ic_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_add"
+                android:layout_marginVertical="13dp"
+                android:layout_marginStart="20dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_label_variable_expenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="13dp"
+                android:layout_marginStart="80dp"
+                android:elevation="2dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/label_variable_expenses"
+                android:textSize="16sp"
+                android:textColor="@color/brand_primary_color"/>
+        </androidx.cardview.widget.CardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
