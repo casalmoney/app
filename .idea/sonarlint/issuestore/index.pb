@@ -37,3 +37,5 @@ Rapp/src/main/java/br/com/casalmoney/app/authenticated/interactor/HelpInteractor
 Sapp/src/main/java/br/com/casalmoney/app/unauthenticated/viewmodel/LoginViewModel.kt,0/2/02981d133d4a04ae65c27f175df2df92b5f8ef92
 ƒ
 Sapp/src/main/java/br/com/casalmoney/app/unauthenticated/view/adapter/ChatAdapter.kt,8/4/84c50c89aa887838d5a730ca4862c32703172f07
+
+Oapp/src/main/java/br/com/casalmoney/app/authenticated/repository/BaseService.kt,1/4/148af0172a87400c208b1e146e8bcb63ed428985

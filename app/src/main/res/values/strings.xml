@@ -13,8 +13,7 @@
     <string name="forgot_password_button">Recuperar Senha</string>
     <string name="email_not_valid">Por favor insira um e-mail válido</string>
 
-
-    <!--Requireed-->
+    <!--Required-->
     <string name="invalid_email">E-mail inválido</string>
     <string name="email_required">E-mail é obrigatório</string>
     <string name="password_required">Senha é obrigatória</string>
@@ -39,4 +38,5 @@
     <string name="tab_help_title">Ajuda</string>
     <string name="label_variable_expenses">Adicionar gastos variáveis</string>
     <string name="message">Mensagem</string>
+
 </resources>

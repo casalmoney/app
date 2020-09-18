@@ -19,15 +19,7 @@ class HelpViewModel(val app: Application) : AndroidViewModel(app) {
     val messages = ArrayList<Message>()
 
     fun sendMessage() {
-        interactor.sendMessage(currentMessage.toString())
+        interactor.sendMessage(currentMessage.value.toString())
         currentMessage.value = ""
-    }
-
-    fun displayRandomMessage() {
-        Handler(Looper.getMainLooper()).postDelayed({
-            messages.add(Message(messages.size % 2 == 0,
-                UUID.randomUUID().toString(), Date().toString()))
-
-        }, 3000)
     }
 }

@@ -50,7 +50,7 @@ class HelpFragment: Fragment() {
     }
 
     fun sendMessage(view: View) {
-        viewModel.displayRandomMessage()
+        viewModel.sendMessage()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
