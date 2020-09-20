@@ -1,22 +1,19 @@
 package br.com.casalmoney.app.authenticated.repository
 
-import android.app.Application
-import android.content.Context
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.http.*
-import java.util.*
 
 interface HelpRepositoryInterface {
-
-    @POST("message/text/send")
-    @Headers("Content-Type: application/json")
-    fun sendTextMessage(@Body request: Message): Call<MessageResult>
+    @FormUrlEncoded
+    @POST("message/text/send/")
+    @Headers("content-type: application/x-www-form-urlencoded;charset=UTF-8")
+    fun sendTextMessage(
+        @Field("text") text: String,
+        @Field("email") email: String,
+        @Field("sessionId") sessionId: String): Call<MessageResult>
 
 }
 
@@ -26,7 +23,9 @@ class HelpRepository(): BaseService() {
 
     fun sentTextMessage(message: Message, email: String,
                         sessionId: String, callback: Callback<MessageResult>) {
-        service.sendTextMessage(message).enqueue(callback)
+
+        service.sendTextMessage(message.text, email, sessionId).enqueue(callback)
     }
+
 }
 

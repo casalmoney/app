@@ -9,6 +9,7 @@ import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
 import br.com.casalmoney.app.unauthenticated.exception.LoginException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,6 +18,7 @@ import java.util.*
 
 open class HelpInteractor () {
     private val repository = HelpRepository()
+    val gson = Gson()
 
     fun sendMessage(message: Message, callback: IHelpInteractor) {
         val email = FirebaseAuth.getInstance().currentUser?.email

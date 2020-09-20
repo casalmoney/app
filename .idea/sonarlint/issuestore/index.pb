@@ -41,3 +41,7 @@ Sapp/src/main/java/br/com/casalmoney/app/unauthenticated/view/adapter/ChatAdapte
 Oapp/src/main/java/br/com/casalmoney/app/authenticated/repository/BaseService.kt,1/4/148af0172a87400c208b1e146e8bcb63ed428985
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
+Š
+Zapp/src/main/java/br/com/casalmoney/app/unauthenticated/view/fragments/InitPageFragment.kt,2/e/2eedbb244f2ce7ad9de91e8196d3e1c4607d88a8
+~
+Napp/src/main/java/br/com/casalmoney/app/unauthenticated/exception/Exception.kt,c/6/c633bac9ac5c2f16b1cf0c97a45bcb23d1db2648

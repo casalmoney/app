@@ -1,20 +1,16 @@
 package br.com.casalmoney.app.authenticated.view.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HelpViewModel
 import br.com.casalmoney.app.databinding.FragmentHelpBinding
-import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.view.adapter.ChatAdapter
-import java.util.*
 
 class HelpFragment: Fragment() {
     private lateinit var binding: FragmentHelpBinding
@@ -55,7 +51,4 @@ class HelpFragment: Fragment() {
         viewModel.sendMessage()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 }

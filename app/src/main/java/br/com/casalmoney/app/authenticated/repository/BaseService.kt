@@ -1,14 +1,14 @@
 package br.com.casalmoney.app.authenticated.repository
 
-import android.app.Application
-import android.content.Context
-import br.com.casalmoney.app.R
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 open class BaseService() {
 
@@ -19,7 +19,10 @@ open class BaseService() {
         val logInterceptor = HttpLoggingInterceptor()
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        val client = OkHttpClient.Builder()
+        val client = OkHttpClient.Builder().apply {
+            connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
+            protocols(listOf(Protocol.HTTP_1_1))
+        }
             .addInterceptor(logInterceptor)
             .build()
 
@@ -34,6 +37,4 @@ open class BaseService() {
             .build()
     }
 
-    fun toJson(obj: Any): String = gson.toJson(obj)
-    inline fun <reified T> fromJson(json: String) = gson.fromJson(json, T::class.java)
 }

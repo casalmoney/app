@@ -2,21 +2,14 @@ package br.com.casalmoney.app.unauthenticated.view.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.recyclerview.widget.RecyclerView
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.unauthenticated.domain.Message
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ChatAdapter(private val activity: Activity, messages: ArrayList<Message>) : BaseAdapter() {
@@ -55,9 +48,9 @@ class ChatAdapter(private val activity: Activity, messages: ArrayList<Message>) 
             viewHolder = view.tag as ViewHolder
         }
 
-        viewHolder.message.text = messagesList[index].message
+        viewHolder.message.text = messagesList[index].text
         viewHolder.time.text = messagesList[index].time
-        viewHolder.user.text = messagesList[index].isUser.toString()
+        viewHolder.user.text =  ""//messagesList[index].isUser.toString()
 
         viewHolder.message.gravity = if (messagesList[index].isUser) Gravity.RIGHT else Gravity.LEFT
 

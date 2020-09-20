@@ -39,5 +39,6 @@
     <string name="label_variable_expenses">Adicionar gastos variáveis</string>
     <string name="message">Mensagem</string>
     <string name="generic_error_toast">Ops, parece que tivemos um erro, tente novamente..</string>
+    <string name="listening_string">Estou te ouvindo..</string>
 
 </resources>
