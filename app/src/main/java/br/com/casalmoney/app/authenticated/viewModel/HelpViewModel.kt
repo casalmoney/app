@@ -9,7 +9,6 @@ import br.com.casalmoney.app.authenticated.interactor.IHelpInteractor
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
 import br.com.casalmoney.app.unauthenticated.view.adapter.ChatAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList

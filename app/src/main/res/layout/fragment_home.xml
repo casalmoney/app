@@ -59,6 +59,7 @@
             android:text="GL"
             android:textColor="@color/brand_primary_color"
             android:textSize="30sp"
+            android:onClick="@{fragment.logout}"
             android:layout_marginStart="30dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
