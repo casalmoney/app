@@ -45,7 +45,9 @@ class HelpFragment: Fragment() {
 
         listView = view.findViewById(R.id.list_of_messages) as ListView
         val adapter = activity?.let { ChatAdapter(it, viewModel.messages) }
-
+        if (adapter != null) {
+            viewModel.adapter = adapter
+        }
         listView.adapter = adapter
     }
 

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.databinding.FragmentInitPageBinding
 import br.com.casalmoney.app.unauthenticated.viewmodel.InitPageViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class InitPageFragment : Fragment() {
     private lateinit var binding: FragmentInitPageBinding
@@ -37,6 +38,10 @@ class InitPageFragment : Fragment() {
     }
 
     fun goToLogin (view : View) {
-        findNavController().navigate(R.id.action_initPageFragment_to_loginFragment)
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            findNavController().navigate(R.id.action_initPageFragment_to_mainActivity)
+        } else {
+            findNavController().navigate(R.id.action_initPageFragment_to_loginFragment)
+        }
     }
 }

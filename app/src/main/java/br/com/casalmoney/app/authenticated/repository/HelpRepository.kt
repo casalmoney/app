@@ -10,6 +10,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.http.*
+import java.util.*
 
 interface HelpRepositoryInterface {
 
@@ -23,7 +24,8 @@ class HelpRepository(): BaseService() {
 
     private val service = retrofit.create(HelpRepositoryInterface::class.java)
 
-    fun sentTextMessage(message: Message, email: String, sessionId: String, callback: Callback<MessageResult>) {
+    fun sentTextMessage(message: Message, email: String,
+                        sessionId: String, callback: Callback<MessageResult>) {
         service.sendTextMessage(message).enqueue(callback)
     }
 }

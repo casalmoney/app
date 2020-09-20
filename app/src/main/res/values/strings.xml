@@ -38,5 +38,6 @@
     <string name="tab_help_title">Ajuda</string>
     <string name="label_variable_expenses">Adicionar gastos variáveis</string>
     <string name="message">Mensagem</string>
+    <string name="generic_error_toast">Ops, parece que tivemos um erro, tente novamente..</string>
 
 </resources>
