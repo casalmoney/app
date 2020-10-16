@@ -26,11 +26,12 @@ class LoginViewModel @ViewModelInject constructor (
     val responseLogin: LiveData<LoginException?> = mLogin
     val user = MutableLiveData(User())
 
-    fun login() {
+    fun login(callback: () -> Unit) {
         if(!inputsRolesIsOk()) return
 
         val observerLogin = interactor.login(user.value!!)
         observerLogin.subscribe { result ->
+            callback()
             mLogin.value = result
         }
     }

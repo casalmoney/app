@@ -45,3 +45,13 @@ Oapp/src/main/java/br/com/casalmoney/app/authenticated/repository/BaseService.kt
 Zapp/src/main/java/br/com/casalmoney/app/unauthenticated/view/fragments/InitPageFragment.kt,2/e/2eedbb244f2ce7ad9de91e8196d3e1c4607d88a8
 ~
 Napp/src/main/java/br/com/casalmoney/app/unauthenticated/exception/Exception.kt,c/6/c633bac9ac5c2f16b1cf0c97a45bcb23d1db2648
+h
+8app/src/main/java/br/com/casalmoney/app/MyApplication.kt,b/d/bd69137c0947719669190fe6ad68a6ccb6c0ac8d
+`
+0app/src/main/java/br/com/casalmoney/app/Audit.kt,7/2/72dd6a93c928c8bfceaf49d5eff523b6e3e1cd4e
+d
+4app/src/main/java/br/com/casalmoney/app/ViewAudit.kt,d/e/de0451612e257cba61cf60922fd1576eb724504e
+x
+Happ/src/main/java/br/com/casalmoney/app/unauthenticated/BusinessAudit.kt,d/2/d20dfded28bcadd5cc627e89e33e8e9c8e5de9c1
+i
+9app/src/main/java/br/com/casalmoney/app/di/AuditModule.kt,1/9/198a61d083fe014414acd1bfd9c794036cdf8f16
