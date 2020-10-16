@@ -20,7 +20,6 @@
         android:background="?attr/backgroundColor"
         tools:context=".authenticated.view.activities.MainActivity">
 
-
         <View
             android:id="@+id/view"
             android:layout_width="0dp"
@@ -31,22 +30,6 @@
             app:layout_constraintHeight_percent="0.35"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        <TextView-->
-<!--            android:id="@+id/tv_avatar_2"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="32dp"-->
-<!--            android:background="@drawable/avatar"-->
-<!--            android:elevation="11dp"-->
-<!--            android:gravity="center"-->
-<!--            android:text="AF"-->
-<!--            android:textColor="@color/brand_primary_color"-->
-<!--            android:textSize="30sp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.249"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tv_avatar"
@@ -181,6 +164,15 @@
                 android:textColor="@color/brand_primary_color"/>
         </androidx.cardview.widget.CardView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_transactions"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@id/cv_card_expenses"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
