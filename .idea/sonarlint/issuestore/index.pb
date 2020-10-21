@@ -55,3 +55,9 @@ x
 Happ/src/main/java/br/com/casalmoney/app/unauthenticated/BusinessAudit.kt,d/2/d20dfded28bcadd5cc627e89e33e8e9c8e5de9c1
 i
 9app/src/main/java/br/com/casalmoney/app/di/AuditModule.kt,1/9/198a61d083fe014414acd1bfd9c794036cdf8f16
+u
+Eapp/src/main/java/br/com/casalmoney/app/utils/CustomProgressDialog.kt,7/c/7c741faf1746b1f249a6a37f3add2137dd8db3a5
+{
+Kapp/src/main/java/br/com/casalmoney/app/authenticated/domain/Transaction.kt,a/e/ae3a1a037f36134d0385d40e7e1569e41b7a5eea
+‰
+Yapp/src/main/java/br/com/casalmoney/app/authenticated/view/adapters/TransactionAdapter.kt,2/8/2862edd3ba72bed3d42667883e3324f2db7e2c3e
