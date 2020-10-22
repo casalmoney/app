@@ -1,15 +1,15 @@
 package br.com.casalmoney.app.unauthenticated.interactor
 
 import br.com.casalmoney.app.Audit
-import br.com.casalmoney.app.di.AuditModule
+import br.com.casalmoney.app.di.CasalMoneyModule
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.LoginException
 import br.com.casalmoney.app.unauthenticated.repository.LoginRepository
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class LoginInteractor @Inject constructor(
-    @AuditModule.BusinessLogger private val audit: Audit
+    @CasalMoneyModule.BusinessLogger private val audit: Audit
 ) {
 
     private val repo = LoginRepository()

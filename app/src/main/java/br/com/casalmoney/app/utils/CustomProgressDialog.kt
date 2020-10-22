@@ -54,6 +54,7 @@ class CustomProgressDialog {
         }
     }
 
+    @Suppress("DEPRECATION")
     class CustomDialog(context: Context) : Dialog(context, R.style.CustomDialogTheme) {
         init {
             // Set Semi-Transparent Color for Dialog Background

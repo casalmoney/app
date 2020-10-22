@@ -4,7 +4,7 @@ import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.SignupException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 
 class RegisterRepository() {
     val mAuth = FirebaseAuth.getInstance()

@@ -3,7 +3,7 @@ package br.com.casalmoney.app.unauthenticated.interactor
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.SignupException
 import br.com.casalmoney.app.unauthenticated.repository.RegisterRepository
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 
 class RegisterInteractor {
 

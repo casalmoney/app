@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.unauthenticated.domain.Message
-import kotlinx.android.synthetic.main.message.view.*
+import kotlinx.android.synthetic.main.item_message.view.*
 import kotlin.collections.ArrayList
 
 class ChatAdapter(
@@ -44,7 +44,7 @@ class ChatAdapter(
         val viewHolder: ViewHolder
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.message, parent, false)
+            view = inflater.inflate(R.layout.item_message, parent, false)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {

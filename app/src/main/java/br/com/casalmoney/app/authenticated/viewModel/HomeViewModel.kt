@@ -1,20 +1,34 @@
 package br.com.casalmoney.app.authenticated.viewModel
 
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
-import br.com.casalmoney.app.authenticated.view.adapters.TransactionAdapter
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
-open class HomeViewModel(val app: Application) : AndroidViewModel(app) {
+open class HomeViewModel @ViewModelInject constructor(
+    val app: Application,
+    private val homeInteractor: HomeInteractor,
+) : AndroidViewModel(app) {
 
-    private val homeInteractor = HomeInteractor()
+    var isLoading: PublishSubject<Boolean> = PublishSubject.create()
+
+    private val page = MutableLiveData(1)
+
     val currentUser = FirebaseAuth.getInstance().currentUser
+    val transactionList = MutableLiveData<List<Transaction>>()
 
-    val transactionList = ArrayList<Transaction>()
-    lateinit var adapter: TransactionAdapter
+    var disposable: Disposable? = null
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
+    }
 
     fun logout() {
         homeInteractor.logout()
@@ -33,10 +47,15 @@ open class HomeViewModel(val app: Application) : AndroidViewModel(app) {
             }
         }
 
-    fun transactions(): ArrayList<Transaction> {
-        transactionList.add(Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-        transactionList.add(       Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-        transactionList.add(Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-        return transactionList
+    fun getTransactions() {
+        isLoading.onNext(true)
+
+        val param = page.value ?: 1
+        disposable = homeInteractor.getTransactions(param).subscribe { transactions, error ->
+            isLoading.onNext(false)
+            if (error == null && transactions != null) {
+                transactionList.value = transactions
+            }
+        }
     }
 }

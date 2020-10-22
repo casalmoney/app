@@ -7,31 +7,34 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import br.com.casalmoney.app.MyApplication
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.LoginException
 import br.com.casalmoney.app.unauthenticated.interactor.LoginInteractor
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javax.inject.Inject
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 
 class LoginViewModel @ViewModelInject constructor (
     val app: Application,
     private val interactor: LoginInteractor
 ) : AndroidViewModel(app) {
 
-    private val compositeDisposable = CompositeDisposable()
-
     private val mLogin = MutableLiveData<LoginException?>()
     val responseLogin: LiveData<LoginException?> = mLogin
     val user = MutableLiveData(User())
 
-    fun login(callback: () -> Unit) {
+    var isLoading: PublishSubject<Boolean> = PublishSubject.create()
+
+    var disposable: Disposable? = null
+
+    fun login() {
         if(!inputsRolesIsOk()) return
 
         val observerLogin = interactor.login(user.value!!)
-        observerLogin.subscribe { result ->
-            callback()
+        isLoading.onNext(true)
+        disposable = observerLogin.subscribe { result ->
+            isLoading.onNext(false)
             mLogin.value = result
         }
     }
@@ -57,7 +60,7 @@ class LoginViewModel @ViewModelInject constructor (
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.dispose()
+        disposable?.dispose()
     }
 
 }

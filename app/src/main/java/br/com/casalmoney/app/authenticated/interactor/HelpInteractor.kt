@@ -28,7 +28,7 @@ open class HelpInteractor () {
     }
 }
 
-open interface IHelpInteractor {
+interface IHelpInteractor {
     fun onSuccess(result: MessageResult?)
     fun onError(t: Throwable)
 }

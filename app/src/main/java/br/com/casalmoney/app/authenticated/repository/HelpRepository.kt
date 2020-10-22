@@ -1,5 +1,6 @@
 package br.com.casalmoney.app.authenticated.repository
 
+import br.com.casalmoney.app.authenticated.repository.service.BaseService
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
 import retrofit2.Call

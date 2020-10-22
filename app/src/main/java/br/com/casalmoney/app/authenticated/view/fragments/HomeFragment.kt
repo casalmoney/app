@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +16,13 @@ import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.adapters.TransactionAdapter
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentHomeBinding
+import br.com.casalmoney.app.utils.CustomProgressDialog
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
+import io.reactivex.disposables.Disposable
 
+@AndroidEntryPoint
+@WithFragmentBindings
 class HomeFragment: Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
@@ -23,6 +31,8 @@ class HomeFragment: Fragment() {
     }
 
     private lateinit var recyclerView: RecyclerView
+
+    private val progressDialog = CustomProgressDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,25 +45,39 @@ class HomeFragment: Fragment() {
         binding.fragment = this
         binding.lifecycleOwner = this
 
-        setupRecyclerView(binding.root)
-
         return binding.root
     }
 
-    private fun setupRecyclerView(view: View) {
-        recyclerView = view.findViewById(R.id.recycler_view_transactions) as RecyclerView
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val adapter = activity?.let { TransactionAdapter(it, viewModel.transactions()) }
+        setupLoading()
+        setupRecyclerView()
+    }
 
-        if (adapter != null) {
-            viewModel.adapter = adapter
+    private fun setupLoading() {
+        viewModel.disposable = viewModel.isLoading.subscribe { isLoading ->
+            if (isLoading) {
+                activity?.let { progressDialog.show(it) }
+            } else {
+                progressDialog.dialog.dismiss()
+            }
         }
+    }
 
-        recyclerView.adapter = adapter
-
+    private fun setupRecyclerView() {
+        recyclerView = binding.recyclerViewTransactions
         val layoutManager = StaggeredGridLayoutManager(
             1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
+
+        viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
+            recyclerView.adapter = TransactionAdapter(list) {
+                Toast.makeText(parentFragment?.context, "Clicou em: " + it.explanation, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.getTransactions()
     }
 
     fun logout(view: View) {

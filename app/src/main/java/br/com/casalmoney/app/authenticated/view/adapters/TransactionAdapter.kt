@@ -1,44 +1,42 @@
 package br.com.casalmoney.app.authenticated.view.adapters
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.domain.Transaction
-import kotlinx.android.synthetic.main.transaction_item.view.*
+import br.com.casalmoney.app.databinding.ItemTransactionBinding
 
 class TransactionAdapter(
-    activity: Activity,
-    private val transactionList: ArrayList<Transaction>
+    private val transactionList: List<Transaction>,
+    private val onItemClick: ((Transaction) -> Unit)
 ): RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
-
-    private val inflater: LayoutInflater = LayoutInflater.from(activity)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view = inflater.inflate(R.layout.transaction_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(transactionList[position])
+        val binding = holder.binding
+        binding.transaction = transactionList[position]
+        binding.executePendingBindings()
     }
 
     override fun getItemCount() = transactionList.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val title: TextView = itemView.title
-        private val description: TextView = itemView.description
+        val binding = ItemTransactionBinding.bind(itemView)
 
-        fun bindView(note: Transaction) {
-            title.text = note.date
-            description.text = note.description
+        init {
+            itemView.setOnClickListener{
+                onItemClick.invoke(transactionList[adapterPosition])
+            }
         }
     }
 }

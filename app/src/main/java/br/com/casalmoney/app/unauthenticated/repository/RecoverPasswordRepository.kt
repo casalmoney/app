@@ -1,7 +1,7 @@
 package br.com.casalmoney.app.unauthenticated.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 
 
 class RecoverPasswordRepository  {

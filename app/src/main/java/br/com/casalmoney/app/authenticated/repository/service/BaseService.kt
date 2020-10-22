@@ -1,4 +1,4 @@
-package br.com.casalmoney.app.authenticated.repository
+package br.com.casalmoney.app.authenticated.repository.service
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
