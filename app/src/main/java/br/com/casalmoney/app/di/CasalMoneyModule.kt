@@ -1,10 +1,12 @@
 package br.com.casalmoney.app.di
 
 import android.content.Context
+import androidx.room.PrimaryKey
 import br.com.casalmoney.app.Audit
 import androidx.room.Room
 import br.com.casalmoney.app.ViewAudit
 import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyDatabase
+import br.com.casalmoney.app.authenticated.repository.service.HelpService
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
 import br.com.casalmoney.app.unauthenticated.BusinessAudit
 import dagger.Module
@@ -73,6 +75,9 @@ object CasalMoneyModule {
     @Provides
     fun provideHomeService(retrofit: Retrofit): HomeService = retrofit.create(HomeService::class.java)
 
+    @Provides
+    fun providesHelpService(retrofit: Retrofit): HelpService = retrofit.create(HelpService::class.java)
+
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): CasalmoneyDatabase =
@@ -83,4 +88,8 @@ object CasalMoneyModule {
     @Singleton
     @Provides
     fun provideTransactionDao(database: CasalmoneyDatabase) = database.homeDAO()
+
+    @Singleton
+    @Provides
+    fun provideHelpDao(database: CasalmoneyDatabase) = database.helpDAO()
 }

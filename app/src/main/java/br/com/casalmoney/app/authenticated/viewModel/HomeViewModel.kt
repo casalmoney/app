@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import com.google.firebase.auth.FirebaseAuth
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 

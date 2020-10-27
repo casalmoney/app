@@ -1,6 +1,8 @@
 package br.com.casalmoney.app.authenticated.viewModel
 
+import android.annotation.SuppressLint
 import android.app.Application
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import br.com.casalmoney.app.R
@@ -8,49 +10,76 @@ import br.com.casalmoney.app.authenticated.interactor.HelpInteractor
 import br.com.casalmoney.app.authenticated.interactor.IHelpInteractor
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
-import br.com.casalmoney.app.unauthenticated.view.adapter.ChatAdapter
+import br.com.casalmoney.app.authenticated.view.adapters.ChatAdapter
+import br.com.casalmoney.app.utils.extensions.default
+import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import kotlin.collections.ArrayList
+import java.util.*
 
-class HelpViewModel(val app: Application) : AndroidViewModel(app), IHelpInteractor {
-
-    private val interactor = HelpInteractor()
+class HelpViewModel @ViewModelInject constructor(
+    val app: Application,
+    private val helpInteractor: HelpInteractor,
+) : AndroidViewModel(app), IHelpInteractor {
 
     val currentMessage = MutableLiveData<String>()
+    val messageList = MutableLiveData<ArrayList<Message>>()
+    private var arrMessages = ArrayList<Message>()
 
-    val messages = ArrayList<Message>()
-    lateinit var adapter: ChatAdapter
+    var isLoading = PublishSubject.create<Boolean>()
+    var disposable: Disposable? = null
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
+    }
+
+    fun getPreviousMessages() {
+        isLoading.onNext(true)
+        disposable = helpInteractor.getPreviousMessages().subscribe { messages, error ->
+            isLoading.onNext(false)
+            if (error != null && messages != null) {
+                arrMessages = messages as ArrayList<Message>
+                messageList.value = arrMessages
+            }
+        }
+    }
 
     fun sendMessage() {
         val message = Message(true,
             currentMessage.value.toString(), getCurrentTimeFormatted())
 
-        interactor.sendMessage(message, this)
-        messages.add(message)
+        helpInteractor.sendMessage(message, this)
+        arrMessages.add(message)
+        messageList.value = arrMessages
 
-        adapter.notifyDataSetChanged()
         currentMessage.value = ""
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun getCurrentTimeFormatted() : String {
-        val date = LocalTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
-        return date.format(formatter)
+        val formatter = SimpleDateFormat("HH:mm")
+        return formatter.format(Date())
     }
 
     override fun onSuccess(result: MessageResult?) {
 
         result?.message?.let {
             Message(false, text = it, getCurrentTimeFormatted())
-        }?.let { messages.add(it) }
-        adapter.notifyDataSetChanged()
+        }?.let {
+            arrMessages.add(it)
+            messageList.value = arrMessages
+        }
     }
 
     override fun onError(t: Throwable) {
-        messages.add(Message(false,
+        val errorMessage = Message(false,
             text = app.getString(R.string.generic_error_toast),
-            getCurrentTimeFormatted()))
-        adapter.notifyDataSetChanged()
+            getCurrentTimeFormatted())
+
+        arrMessages.add(errorMessage)
+        messageList.value = arrMessages
     }
 }
