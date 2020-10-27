@@ -7,11 +7,15 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HelpViewModel
 import br.com.casalmoney.app.databinding.FragmentHelpBinding
-import br.com.casalmoney.app.unauthenticated.view.adapter.ChatAdapter
+import br.com.casalmoney.app.authenticated.view.adapters.ChatAdapter
+import br.com.casalmoney.app.utils.CustomProgressDialog
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
 
+@AndroidEntryPoint
+@WithFragmentBindings
 class HelpFragment: Fragment() {
     private lateinit var binding: FragmentHelpBinding
 
@@ -20,6 +24,7 @@ class HelpFragment: Fragment() {
     }
 
     private lateinit var listView: ListView
+    private val progressDialog = CustomProgressDialog()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,20 +37,34 @@ class HelpFragment: Fragment() {
         binding.fragment = this
         binding.lifecycleOwner = this
 
-        setupListView(binding.root)
-
         return binding.root
     }
 
-    private fun setupListView(view: View) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        listView = view.findViewById(R.id.list_of_messages) as ListView
+        setupLoading()
+        setupListView()
+    }
 
-        val adapter = activity?.let { ChatAdapter(it, viewModel.messages) }
-        if (adapter != null) {
-            viewModel.adapter = adapter
+    private fun setupLoading() {
+        viewModel.disposable = viewModel.isLoading.subscribe { isLoading ->
+            if (isLoading) {
+                activity?.let { progressDialog.show(it) }
+            } else {
+                progressDialog.dialog.dismiss()
+            }
         }
-        listView.adapter = adapter
+    }
+
+    private fun setupListView() {
+        listView = binding.listOfMessages
+
+        viewModel.messageList.observe(viewLifecycleOwner, { list ->
+            listView.adapter = ChatAdapter(list)
+        })
+
+        viewModel.getPreviousMessages()
     }
 
     fun sendMessage(view: View) {

@@ -1,4 +1,4 @@
-package br.com.casalmoney.app.unauthenticated.view.adapter
+package br.com.casalmoney.app.authenticated.view.adapters
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,21 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import kotlinx.android.synthetic.main.item_message.view.*
-import kotlin.collections.ArrayList
 
 class ChatAdapter(
-    private val activity: Activity,
-    messages: ArrayList<Message>) : BaseAdapter() {
-
-    private var messagesList = ArrayList<Message>()
-    private val inflater : LayoutInflater = LayoutInflater.from(activity)
-
-    init {
-        messagesList = messages
-    }
+    private val messageList: List<Message>
+) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return messagesList.size
+        return messageList.size
     }
 
     override fun getItem(item: Int): Any {
@@ -38,13 +30,13 @@ class ChatAdapter(
     }
 
     @SuppressLint("ViewHolder", "InflateParams")
-    override fun getView(index: Int, convertView: View?, parent: ViewGroup?): View? {
+    override fun getView(index: Int, convertView: View?, parent: ViewGroup): View? {
 
         val view: View?
         val viewHolder: ViewHolder
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_message, parent, false)
+            view = LayoutInflater.from(parent.context).inflate(R.layout.item_message, parent, false)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {
@@ -52,7 +44,7 @@ class ChatAdapter(
             viewHolder = view.tag as ViewHolder
         }
 
-        viewHolder.bindView(messagesList.get(index))
+        viewHolder.bindView(messageList[index])
 
         return view
     }
