@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fragment"
+            type="br.com.casalmoney.app.authenticated.view.fragments.ModalTransactionFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qual nome deseja dar para este gasto ?"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"
+            app:layout_constraintHorizontal_bias="0.16"
+            />
+
+        <EditText
+            android:id="@+id/et_amount_value"
+            app:layout_constraintWidth_percent="0.9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_amount"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="32dp" />
+
+        <Spinner
+            android:id="@+id/spinner_type_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/et_amount_value"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="32dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo do gasto"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/et_amount_value"
+            app:layout_constraintRight_toLeftOf="@+id/spinner_type_transaction"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="42dp"
+            app:layout_constraintHorizontal_bias="0.16"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

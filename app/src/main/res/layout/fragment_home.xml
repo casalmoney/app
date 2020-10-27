@@ -127,7 +127,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{fragment::openDialogFragment}"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_card_expenses"
