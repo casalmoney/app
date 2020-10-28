@@ -24,7 +24,7 @@ class ModalTransactionFragment : DialogFragment() {
         const val TAG = "ModalTransaction"
     }
 
-    private var fixedExpenses = listOf("Internet", "Moradia", "Alimentação", "Lazer", "Educação", "Agua", "Luz", "Telefone")
+    private var fixedExpenses = listOf("Internet", "Moradia", "Alimentação", "Lazer", "Educação", "Agua", "Luz", "Telefone", "Outros")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,8 +65,8 @@ class ModalTransactionFragment : DialogFragment() {
 
                 // set selected item style
                 if (position == spinner.selectedItemPosition){
-                    view.background = ColorDrawable(Color.parseColor("#FAEBD7"))
-                    view.setTextColor(Color.parseColor("#008000"))
+                    view.background = ColorDrawable(Color.parseColor("#f5f4f2"))
+                    view.setTextColor(Color.parseColor("#10ad10"))
                 }
 
                 return view
