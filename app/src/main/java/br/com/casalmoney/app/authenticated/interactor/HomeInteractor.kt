@@ -16,4 +16,9 @@ class HomeInteractor @Inject constructor(
     fun getTransactions(page: Int): Single<List<Transaction>> {
         return repository.getTransactions(page)
     }
+
+    fun saveTransaction(transaction: Transaction) {
+        repository.saveTransactions(transaction)
+    }
+
 }

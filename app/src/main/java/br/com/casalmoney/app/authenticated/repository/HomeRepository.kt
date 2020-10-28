@@ -2,6 +2,7 @@ package br.com.casalmoney.app.authenticated.repository
 
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.repository.local.database.HomeDAO
+import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Single
@@ -36,4 +37,9 @@ class HomeRepository @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun saveTransactions(transaction: Transaction){
+        homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
+    }
+
 }

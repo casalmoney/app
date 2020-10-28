@@ -9,6 +9,7 @@ import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import java.util.*
 
 open class HomeViewModel @ViewModelInject constructor(
     val app: Application,
@@ -57,5 +58,9 @@ open class HomeViewModel @ViewModelInject constructor(
                 transactionList.value = transactions
             }
         }
+    }
+
+    fun saveTransaction(amount: String, typeExpense: String) {
+        homeInteractor.saveTransaction(Transaction(explanation =  typeExpense, amount = amount, date = Date().toString()))
     }
 }

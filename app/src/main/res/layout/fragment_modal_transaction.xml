@@ -7,6 +7,9 @@
         <variable
             name="fragment"
             type="br.com.casalmoney.app.authenticated.view.fragments.ModalTransactionFragment" />
+        <variable
+            name="viewModel"
+            type="br.com.casalmoney.app.authenticated.viewModel.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,13 +51,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             />
 
-<!--        <EditText-->
-<!--            android:id="@+id/et_amount_value"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-
-<!--            android:layout_marginTop="32dp" />-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_amount"
             android:layout_width="match_parent"
@@ -63,7 +59,10 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_amount"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            app:errorTextAppearance="@style/error_appearance"
+            app:hintTextAppearance="@style/error_appearance"
+            >
 
             <EditText
                 android:id="@+id/et_amount_value"
@@ -75,8 +74,24 @@
                 android:textColor="@color/text_color"
                 android:textColorHint="@android:color/darker_gray"
                 android:importantForAutofill="no"
-                android:text=""/>
+                android:text="@={fragment.valueExpenses}"
+                android:maxLength="16"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_register_value"
+            android:layout_height="60dp"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.40"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/save"
+            style="?attr/greenButtonStyle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_input_amount"
+            android:onClick="@{fragment::registerExpenses}"
+           />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
