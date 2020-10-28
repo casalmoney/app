@@ -22,6 +22,7 @@
 
     <color name="text_color">#3C3C3C</color>
     <color name="denotive_error">#F7486C </color>
+    <color name="colorRed">#f44336</color>
 
 </resources>
 
