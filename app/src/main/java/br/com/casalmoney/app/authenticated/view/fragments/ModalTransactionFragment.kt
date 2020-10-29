@@ -21,7 +21,11 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentModalTransactionBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
 
+@AndroidEntryPoint
+@WithFragmentBindings
 class ModalTransactionFragment : DialogFragment() {
 
     private lateinit var binding: FragmentModalTransactionBinding
@@ -44,6 +48,8 @@ class ModalTransactionFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentModalTransactionBinding.inflate(inflater, container, false)
+
+        binding.viewModel = viewModel
         binding.fragment = this
         binding.lifecycleOwner = this
 
