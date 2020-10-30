@@ -43,5 +43,4 @@ class HomeRepository @Inject constructor(
     fun saveTransactions(transaction: Transaction) : Completable = Completable.fromCallable {
         homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
     }
-
 }

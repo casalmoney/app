@@ -30,7 +30,11 @@
         android:id="@id/helpFragment"
         android:name="br.com.casalmoney.app.authenticated.view.fragments.HelpFragment"
         android:label="HelpFragment"
-        tools:layout="@layout/fragment_help"/>
+        tools:layout="@layout/fragment_help">
+        <action
+            android:id="@+id/action_helpFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
     <activity
         android:id="@+id/unAuthenticatedActivity"
         android:name="br.com.casalmoney.app.unauthenticated.view.activities.UnAuthenticatedActivity"
@@ -41,4 +45,9 @@
         android:name="br.com.casalmoney.app.authenticated.view.fragments.TransactionDetailFragment"
         android:label="TransactionDetailFragment"
         tools:layout="@layout/fragment_transaction_detail"/>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat"/>
 </navigation>

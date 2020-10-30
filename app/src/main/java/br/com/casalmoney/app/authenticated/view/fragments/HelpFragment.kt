@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HelpViewModel
 import br.com.casalmoney.app.databinding.FragmentHelpBinding
 import br.com.casalmoney.app.authenticated.view.adapters.ChatAdapter
@@ -23,9 +25,6 @@ class HelpFragment: Fragment() {
         ViewModelProvider(this).get(HelpViewModel::class.java)
     }
 
-    private lateinit var listView: ListView
-    private val progressDialog = CustomProgressDialog()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,35 +39,7 @@ class HelpFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupLoading()
-        setupListView()
+    fun presentChat(view: View) {
+        findNavController().navigate(R.id.action_helpFragment_to_chatFragment)
     }
-
-    private fun setupLoading() {
-        viewModel.disposable = viewModel.isLoading.subscribe { isLoading ->
-            if (isLoading) {
-                activity?.let { progressDialog.show(it) }
-            } else {
-                progressDialog.dialog.dismiss()
-            }
-        }
-    }
-
-    private fun setupListView() {
-        listView = binding.listOfMessages
-
-        viewModel.messageList.observe(viewLifecycleOwner, { list ->
-            listView.adapter = ChatAdapter(list)
-        })
-
-        viewModel.getPreviousMessages()
-    }
-
-    fun sendMessage(view: View) {
-        viewModel.sendMessage()
-    }
-
 }

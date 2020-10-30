@@ -10,4 +10,5 @@ abstract class CasalmoneyDatabase : RoomDatabase() {
 
     abstract fun homeDAO(): HomeDAO
     abstract fun helpDAO(): HelpDAO
+    abstract fun chatDAO(): ChatDAO
 }

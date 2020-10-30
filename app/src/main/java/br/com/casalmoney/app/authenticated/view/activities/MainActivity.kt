@@ -44,12 +44,16 @@ class MainActivity : AppCompatActivity() {
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.transactionDetailFragment) {
-                this.supportActionBar?.show()
-                bottomNavView.visibility = View.GONE
-            } else {
-                this.supportActionBar?.hide()
-                bottomNavView.visibility = View.VISIBLE
+
+            when (destination.id) {
+                R.id.transactionDetailFragment, R.id.chatFragment -> {
+                    this.supportActionBar?.show()
+                    bottomNavView.visibility = View.GONE
+                }
+                else -> {
+                    this.supportActionBar?.hide()
+                    bottomNavView.visibility = View.VISIBLE
+                }
             }
         }
 
