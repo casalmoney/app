@@ -76,7 +76,7 @@ class HomeFragment: Fragment() {
 
         viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
             recyclerView.adapter = TransactionAdapter(list) {
-                Toast.makeText(parentFragment?.context, "Clicou em: " + it.explanation, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
             }
         })
 

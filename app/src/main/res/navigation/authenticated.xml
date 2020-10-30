@@ -15,6 +15,9 @@
             android:id="@+id/action_homeFragment_to_unAuthenticatedActivity"
             app:destination="@id/unAuthenticatedActivity"
             app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
     </fragment>
 
     <fragment
@@ -33,4 +36,9 @@
         android:name="br.com.casalmoney.app.unauthenticated.view.activities.UnAuthenticatedActivity"
         android:label="activity_unauthenticated"
         tools:layout="@layout/activity_unauthenticated" />
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.TransactionDetailFragment"
+        android:label="TransactionDetailFragment"
+        tools:layout="@layout/fragment_transaction_detail"/>
 </navigation>
