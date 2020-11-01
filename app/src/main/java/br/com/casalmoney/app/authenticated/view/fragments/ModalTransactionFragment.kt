@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import br.com.casalmoney.app.R
@@ -30,9 +31,7 @@ class ModalTransactionFragment : DialogFragment() {
 
     private lateinit var binding: FragmentModalTransactionBinding
 
-    private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     companion object {
         const val TAG = "ModalTransactionFragment"
@@ -57,9 +56,12 @@ class ModalTransactionFragment : DialogFragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupSpinnerAdapter()
+    }
 
+    private fun setupSpinnerAdapter() {
         val spinner = binding.spinnerTypeTransaction
 
         val adapter: ArrayAdapter<String> = object: ArrayAdapter<String>(

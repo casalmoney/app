@@ -85,6 +85,7 @@ object CasalMoneyModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): CasalmoneyDatabase =
         Room.databaseBuilder(context, CasalmoneyDatabase::class.java, "CasalmoneyDB")
+            .allowMainThreadQueries()
             .fallbackToDestructiveMigration()
             .build()
 

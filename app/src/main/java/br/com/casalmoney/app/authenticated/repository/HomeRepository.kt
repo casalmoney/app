@@ -1,6 +1,7 @@
 package br.com.casalmoney.app.authenticated.repository
 
 import br.com.casalmoney.app.authenticated.domain.Transaction
+import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyDatabase
 import br.com.casalmoney.app.authenticated.repository.local.database.HomeDAO
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
@@ -40,7 +41,7 @@ class HomeRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun saveTransactions(transaction: Transaction) : Completable = Completable.fromCallable {
+    fun saveTransactions(transaction: Transaction) {
         homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
     }
 }

@@ -24,6 +24,7 @@ interface ChatRepositoryInterface {
         @Field("email") email: String,
         @Field("sessionId") sessionId: String): Call<MessageResult>
 }
+
 class ChatRepository @Inject constructor(
     private val chatDAO: ChatDAO
 ): BaseService() {
