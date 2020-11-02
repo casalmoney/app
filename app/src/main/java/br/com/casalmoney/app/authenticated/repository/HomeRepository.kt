@@ -28,20 +28,19 @@ class HomeRepository @Inject constructor(
 
     private fun getLocalTransactions(): Single<List<Transaction>> {
         return homeDAO.getTransactions()
-            .map { _ ->
+            .map { transactios ->
                 val arr = mutableListOf<Transaction>()
-                //mock stuff
-                arr.add(Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-                arr.add(       Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-                arr.add(Transaction("Descrição do gasto", "10,00", "15 de outubro"))
-                arr.toList()
 
+                transactios.map {it ->
+                    arr.add(Transaction(it.explanation, it.amount, it.date))
+                }
+                arr.toList()
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun saveTransactions(transaction: Transaction) {
-        homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
+      homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
     }
 }

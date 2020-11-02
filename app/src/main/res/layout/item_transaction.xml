@@ -23,17 +23,28 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="@{ transaction.date }"
+            android:textSize="18dp"
+            android:text="@{transaction.explanation}"
             tools:text="Titulo" />
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{transaction.explanation}"
-            android:textSize="20dp"
-            tools:text="Descrição" />
+            android:textSize="16dp"
+            android:text="@{transaction.amount}"
+            tools:text="Valor" />
+
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{ transaction.date }"
+            android:textSize="12dp"
+            tools:text="Descrição"
+            android:layout_gravity="right"
+            />
 
     </LinearLayout>
 

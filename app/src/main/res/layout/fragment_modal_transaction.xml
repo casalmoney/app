@@ -75,7 +75,9 @@
                 android:textColorHint="@android:color/darker_gray"
                 android:importantForAutofill="no"
                 android:text="@={fragment.valueExpenses}"
-                android:maxLength="16"/>
+                android:maxLength="16"
+                />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

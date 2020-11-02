@@ -24,6 +24,7 @@ import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentModalTransactionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
+import kotlin.concurrent.timerTask
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -111,13 +112,6 @@ class ModalTransactionFragment : DialogFragment() {
                 // another interface callback
             }
         }
-
-//        val format = NumberFormat.getCurrencyInstance()
-//        format.setCurrency(Currency.getInstance("BRL"))
-//        binding.textInputAmount.editText?.addTextChangedListener { it ->
-//            valueExpenses = format.format(it.toString().toDouble())
-//            viewModel.valueExpenses.value = format.format(it.toString().toDouble())
-//        }
     }
 
 
@@ -127,6 +121,7 @@ class ModalTransactionFragment : DialogFragment() {
         } else {
             binding.textInputAmount.isErrorEnabled = false
             viewModel.saveTransaction(valueExpenses, typeExpenses)
+            dialog?.dismiss()
         }
     }
 
