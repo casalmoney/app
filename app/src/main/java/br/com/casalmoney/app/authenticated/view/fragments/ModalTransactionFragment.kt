@@ -3,10 +3,9 @@ package br.com.casalmoney.app.authenticated.view.fragments
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import android.icu.text.NumberFormat
-import android.icu.util.Currency
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,17 +13,14 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentModalTransactionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
-import kotlin.concurrent.timerTask
+import java.text.NumberFormat
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -38,9 +34,10 @@ class ModalTransactionFragment : DialogFragment() {
         const val TAG = "ModalTransactionFragment"
     }
 
-    private var fixedExpenses = listOf("Internet", "Moradia", "Alimentação", "Lazer", "Educação", "Agua", "Luz", "Telefone", "Outros")
+    private var fixedExpenses = listOf("Internet", "Moradia", "Alimentação", "Lazer", "Educação", "Agua", "Luz", "Telefone", "Transporte", "Outros")
     private var typeExpenses: String = ""
     var valueExpenses: String = ""
+    private var current: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,13 +59,43 @@ class ModalTransactionFragment : DialogFragment() {
         setupSpinnerAdapter()
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        binding.etAmountValue.addTextChangedListener( object : TextWatcher {
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0.toString() != current){
+                    binding.etAmountValue.removeTextChangedListener(this);
+
+                    val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
+                    val parsed = cleanString.toDouble()
+                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+
+                    current = formatted;
+
+                    binding.etAmountValue.setText(formatted);
+                    binding.etAmountValue.setSelection(formatted.length);
+                    binding.etAmountValue.addTextChangedListener(this);
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //not use
+            }
+            override fun afterTextChanged(p0: Editable?) {
+                //not use
+            }
+        })
+    }
+
     private fun setupSpinnerAdapter() {
         val spinner = binding.spinnerTypeTransaction
+        val sortFixedExpenses = fixedExpenses.sortedBy { it.toString() }
 
         val adapter: ArrayAdapter<String> = object: ArrayAdapter<String>(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            fixedExpenses
+            sortFixedExpenses
         ){
             override fun getDropDownView(
                 position: Int,

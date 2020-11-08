@@ -9,6 +9,7 @@ import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import java.text.SimpleDateFormat
 import java.util.*
 
 open class HomeViewModel @ViewModelInject constructor(
@@ -61,6 +62,17 @@ open class HomeViewModel @ViewModelInject constructor(
     }
 
     fun saveTransaction(amount: String, typeExpense: String) {
-        homeInteractor.saveTransaction(Transaction(explanation =  typeExpense, amount = amount, date = Date().toString()))
+        val pattern = "dd/MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date: String = simpleDateFormat.format(Date())
+
+        val mAmount= amount.toString().replace("""[R$/\s/g.]""".toRegex(), "").replace(",", ".")
+        homeInteractor.saveTransaction(
+            Transaction(
+                explanation = typeExpense,
+                amount = mAmount,
+                date = date
+            )
+        )
     }
 }
