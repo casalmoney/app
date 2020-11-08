@@ -26,18 +26,17 @@ import java.text.NumberFormat
 @WithFragmentBindings
 class ModalTransactionFragment : DialogFragment() {
 
-    private lateinit var binding: FragmentModalTransactionBinding
-
-    private val viewModel: HomeViewModel by viewModels()
-
     companion object {
-        const val TAG = "ModalTransactionFragment"
+        val TAG = "ModalTransactionFragment"
     }
+
+    private lateinit var binding: FragmentModalTransactionBinding
+    private val viewModel: HomeViewModel by viewModels()
 
     private var fixedExpenses = listOf("Internet", "Moradia", "Alimentação", "Lazer", "Educação", "Agua", "Luz", "Telefone", "Transporte", "Outros")
     private var typeExpenses: String = ""
+    private var auxValueExpenses: String = ""
     var valueExpenses: String = ""
-    private var current: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,14 +63,14 @@ class ModalTransactionFragment : DialogFragment() {
         super.onResume()
         binding.etAmountValue.addTextChangedListener( object : TextWatcher {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if(p0.toString() != current){
+                if(p0.toString() != auxValueExpenses){
                     binding.etAmountValue.removeTextChangedListener(this);
 
-                    val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
-                    val parsed = cleanString.toDouble()
-                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
-
-                    current = formatted;
+//                    val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
+//                    val parsed = cleanString.toDouble()
+//                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+                    val formatted = viewModel.formatToCurrency(p0)
+                    auxValueExpenses = formatted;
 
                     binding.etAmountValue.setText(formatted);
                     binding.etAmountValue.setSelection(formatted.length);

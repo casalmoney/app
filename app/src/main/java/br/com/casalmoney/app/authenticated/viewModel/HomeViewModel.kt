@@ -9,6 +9,7 @@ import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -56,7 +57,9 @@ open class HomeViewModel @ViewModelInject constructor(
         disposable = homeInteractor.getTransactions(param).subscribe { transactions, error ->
             isLoading.onNext(false)
             if (error == null && transactions != null) {
-                transactionList.value = transactions
+                transactionList.value =  transactions.map {
+                    Transaction(amount = formatToCurrency(it.amount), explanation = it.explanation, date = it.date)
+                }
             }
         }
     }
@@ -74,5 +77,12 @@ open class HomeViewModel @ViewModelInject constructor(
                 date = date
             )
         )
+    }
+
+    fun formatToCurrency(p0: CharSequence?): String {
+        val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
+        val parsed = cleanString.toDouble()
+        val formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
+        return formatted
     }
 }
