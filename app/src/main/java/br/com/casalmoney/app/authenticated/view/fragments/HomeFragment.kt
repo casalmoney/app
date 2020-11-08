@@ -100,7 +100,11 @@ class HomeFragment: Fragment() {
         alert.show()
     }
 
-    fun openDialogFragment(view: View) {
+    fun openModalTransactionFragment(view: View) {
         ModalTransactionFragment().show(requireActivity().supportFragmentManager, ModalTransactionFragment.TAG)
+    }
+
+    fun openModalTransactionVariableFragment(view: View) {
+        ModalTransactionVariableFragment().show(requireActivity().supportFragmentManager, ModalTransactionVariableFragment.TAG)
     }
 }

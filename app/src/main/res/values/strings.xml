@@ -47,7 +47,7 @@
 
 
     <string name="currency">R$</string>
-    <string name="question_value">Qual valor você gastou?</string>
+    <string name="question_value">Quanto você gastou?</string>
     <string name="type_expenses">Tipo do gasto</string>
     <string name="save">Salvar</string>
 

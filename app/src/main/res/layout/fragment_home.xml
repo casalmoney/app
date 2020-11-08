@@ -128,7 +128,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:onClick="@{fragment::openDialogFragment}"/>
+            android:onClick="@{fragment::openModalTransactionFragment}"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_card_expenses"
@@ -141,7 +141,8 @@
             app:layout_constraintTop_toBottomOf="@+id/view"
             app:cardCornerRadius="8dp"
             android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="@{fragment::openModalTransactionVariableFragment}">
 
             <ImageView
                 android:id="@+id/iv_ic_add"

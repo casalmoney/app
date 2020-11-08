@@ -20,7 +20,6 @@ import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentModalTransactionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
-import java.text.NumberFormat
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -66,9 +65,6 @@ class ModalTransactionFragment : DialogFragment() {
                 if(p0.toString() != auxValueExpenses){
                     binding.etAmountValue.removeTextChangedListener(this);
 
-//                    val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
-//                    val parsed = cleanString.toDouble()
-//                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100));
                     val formatted = viewModel.formatToCurrency(p0)
                     auxValueExpenses = formatted;
 
