@@ -9,6 +9,6 @@ data class TransactionEntity(
     val id: Int = 0,
 
     val explanation: String,
-    val amount: String,
+    val amount: Double,
     val date: String
 )

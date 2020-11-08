@@ -32,7 +32,7 @@ class HomeRepository @Inject constructor(
                 val arr = mutableListOf<Transaction>()
 
                 transactios.map {it ->
-                    arr.add(Transaction(it.explanation, it.amount, it.date))
+                    arr.add(Transaction(it.explanation, it.amount.toString(), it.date))
                 }
                 arr.toList()
             }
@@ -40,7 +40,7 @@ class HomeRepository @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    fun saveTransactions(transaction: Transaction) {
-      homeDAO.addTransaction(TransactionEntity(explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
+    fun saveTransactions(transaction: TransactionEntity) {
+      homeDAO.addTransaction(transaction)
     }
 }

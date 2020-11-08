@@ -34,7 +34,6 @@ class HomeFragment: Fragment() {
     }
 
     private lateinit var recyclerView: RecyclerView
-
     private val progressDialog = CustomProgressDialog()
 
     override fun onCreateView(
@@ -76,6 +75,7 @@ class HomeFragment: Fragment() {
 
         viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
             recyclerView.adapter = TransactionAdapter(list) {
+                viewModel.isLoading.onNext(false)
                 findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
             }
         })

@@ -96,7 +96,7 @@
             android:layout_marginStart="2dp"
             android:elevation="11dp"
             android:fontFamily="@font/roboto_black"
-            android:text="345,42"
+            android:text="@{viewModel.totalAmount.toString()}"
             android:textColor="@color/brand_white_color"
             android:textSize="26sp"
             app:layout_constraintStart_toEndOf="@+id/tv_label_money"
