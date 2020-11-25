@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.casalmoney.app.R
+import br.com.casalmoney.app.authenticated.view.activities.MainActivity
 import br.com.casalmoney.app.authenticated.view.adapters.TransactionAdapter
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentHomeBinding
@@ -76,6 +77,8 @@ class HomeFragment: Fragment() {
         viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
             recyclerView.adapter = TransactionAdapter(list) {
                 viewModel.isLoading.onNext(false)
+                progressDialog.dialog.dismiss()
+                (activity as? MainActivity)?.selectedTransaction = it
                 findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
             }
         })
