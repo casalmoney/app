@@ -40,16 +40,15 @@ open class HomeViewModel @ViewModelInject constructor(
 
     val nameInitials: String
         get() {
-//            val initials = currentUser?.displayName.toString()
-//                .split(' ')
-//                .mapNotNull { it.firstOrNull()?.toString() }
-//                .reduce { acc, s -> acc + s }
-//            return if (initials.length == 1) {
-//                initials + initials
-//            } else {
-//                initials.substring(0, 2)
-//            }
-            return "Oi"
+            val initials = currentUser?.displayName.toString()
+                .split(' ')
+                .mapNotNull { it.firstOrNull()?.toString() }
+                .reduce { acc, s -> acc + s }
+            return if (initials.length == 1) {
+                initials + initials
+            } else {
+                initials.substring(0, 2)
+            }
         }
 
     fun getTransactions() {

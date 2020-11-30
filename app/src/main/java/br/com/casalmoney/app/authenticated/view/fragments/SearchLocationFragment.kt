@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,13 +26,48 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.activities.MainActivity
+import br.com.casalmoney.app.authenticated.viewModel.SearchLocationViewModel
+import br.com.casalmoney.app.databinding.FragmentSearchLocationBinding
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
 
+@AndroidEntryPoint
+@WithFragmentBindings
 class SearchLocationFragment : Fragment() {
+
+    private lateinit var binding: FragmentSearchLocationBinding
+
+    private val viewModel: SearchLocationViewModel by lazy {
+        ViewModelProvider(this).get(SearchLocationViewModel::class.java)
+    }
 
     private var googleMap: GoogleMap? = null
 
     private var locationManager: LocationManager? = null
     private val LOCATION_PERMISSION_CODE = 6789
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSearchLocationBinding.inflate(inflater, container, false)
+
+        binding.viewModel = viewModel
+        binding.fragment = this
+        binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+
+        startLocationManager()
+        (activity as AppCompatActivity).supportActionBar?.title = (activity as? MainActivity)?.selectedTransaction?.title
+    }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
@@ -55,23 +91,6 @@ class SearchLocationFragment : Fragment() {
         val geocoder = Geocoder(activity)
         val list = geocoder.getFromLocation(latLong.latitude, latLong.longitude, 1)
         return list[0].getAddressLine(0)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_search_location, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-
-        startLocationManager()
-        (activity as AppCompatActivity).supportActionBar?.title = (activity as? MainActivity)?.selectedTransaction?.title
     }
 
     private fun startLocationManager() {
