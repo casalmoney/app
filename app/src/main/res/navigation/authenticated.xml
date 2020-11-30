@@ -44,10 +44,19 @@
         android:id="@+id/transactionDetailFragment"
         android:name="br.com.casalmoney.app.authenticated.view.fragments.TransactionDetailFragment"
         android:label="TransactionDetailFragment"
-        tools:layout="@layout/fragment_transaction_detail"/>
+        tools:layout="@layout/fragment_transaction_detail">
+        <action
+            android:id="@+id/action_transactionDetailFragment_to_searchLocationFragment"
+            app:destination="@id/searchLocationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="br.com.casalmoney.app.authenticated.view.fragments.ChatFragment"
         android:label="Chat"
         tools:layout="@layout/fragment_chat"/>
+    <fragment
+        android:id="@+id/searchLocationFragment"
+        android:name="br.com.casalmoney.app.authenticated.view.fragments.SearchLocationFragment"
+        android:label="fragment_search_location"
+        tools:layout="@layout/fragment_search_location" />
 </navigation>

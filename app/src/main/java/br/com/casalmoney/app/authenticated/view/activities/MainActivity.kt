@@ -1,8 +1,10 @@
 package br.com.casalmoney.app.authenticated.view.activities
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +15,7 @@ import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.system.exitProcess
 
 
 @AndroidEntryPoint
@@ -49,7 +52,9 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             when (destination.id) {
-                R.id.transactionDetailFragment, R.id.chatFragment -> {
+                R.id.transactionDetailFragment,
+                R.id.chatFragment,
+                R.id.searchLocationFragment -> {
                     this.supportActionBar?.show()
                     bottomNavView.visibility = View.GONE
                 }
@@ -61,6 +66,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupActionBarWithNavController(navHostFragment.navController, appBarConfiguration)
+    }
+
+    override fun onBackPressed() {
+        when(navController.currentDestination?.id) {
+            R.id.homeFragment-> {
+                AlertDialog
+                    .Builder(this)
+                    .setMessage(getString(R.string.close_app))
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        finishAffinity()
+                    }.setNegativeButton(R.string.no) {_, _ -> /* do nothing*/ }
+                    .show()
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

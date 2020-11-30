@@ -36,6 +36,7 @@ class HomeFragment: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private val progressDialog = CustomProgressDialog()
+    private var presentingProgressDialog: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,10 +61,14 @@ class HomeFragment: Fragment() {
 
     private fun setupLoading() {
         viewModel.disposable = viewModel.isLoading.subscribe { isLoading ->
-            if (isLoading) {
-                activity?.let { progressDialog.show(it) }
+            if (isLoading && !presentingProgressDialog) {
+                activity?.let {
+                    progressDialog.show(it)
+                    presentingProgressDialog = true
+                }
             } else {
                 progressDialog.dialog.dismiss()
+                presentingProgressDialog = false
             }
         }
     }
@@ -78,6 +83,7 @@ class HomeFragment: Fragment() {
             recyclerView.adapter = TransactionAdapter(list) {
                 viewModel.isLoading.onNext(false)
                 progressDialog.dialog.dismiss()
+                presentingProgressDialog = false
                 (activity as? MainActivity)?.selectedTransaction = it
                 findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
             }

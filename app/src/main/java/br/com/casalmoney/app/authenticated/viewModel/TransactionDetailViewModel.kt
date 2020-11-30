@@ -11,6 +11,8 @@ class TransactionDetailViewModel @ViewModelInject constructor(
 
     var transaction: Transaction? = null
 
-    fun changeLocation() {}
+    fun changeLocation() {
+
+    }
 
 }

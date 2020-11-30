@@ -53,5 +53,6 @@
 
     <string name="alert_empty_field">Preencha o campo</string>
     <string name="location">Localização</string>
+    <string name="close_app">Deseja fechar a aplicação?</string>
 
 </resources>
