@@ -56,5 +56,7 @@
     <string name="close_app">Deseja fechar a aplicação?</string>
     <string name="search_places">Pesquise lugares</string>
     <string name="search">Pesquisar</string>
+    <string name="choose_place">Escolher local</string>
+    <string name="select_place_error_message">Você precisa selecionar um local antes</string>
 
 </resources>

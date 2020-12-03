@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SearchLocationInteractor @Inject constructor(
     private val repository: SearchLocationRepository
 ) {
-    fun searchPlaceUsing(query: String): Single<List<String>> {
+    fun searchPlaceUsing(query: String): Single<List<String>?> {
         return repository.searchPlaceUsing(query)
     }
 }

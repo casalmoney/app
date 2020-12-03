@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.activities.MainActivity
 import br.com.casalmoney.app.authenticated.viewModel.SearchLocationViewModel
@@ -42,6 +43,8 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var locationManager: LocationManager? = null
     private val LOCATION_PERMISSION_CODE = 6789
+
+    var selectedLocation: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,9 +92,13 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun getAddress(latLong: LatLng): String {
-        val geocoder = Geocoder(activity)
-        val list = geocoder.getFromLocation(latLong.latitude, latLong.longitude, 1)
-        return list[0].getAddressLine(0)
+        activity?.let {
+            Geocoder(it).let { geocoder ->
+                val list = geocoder.getFromLocation(latLong.latitude, latLong.longitude, 1)
+                return list[0].getAddressLine(0)
+            }
+        }
+        return ""
     }
 
     private fun startLocationManager() {
@@ -132,12 +139,21 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Toast.makeText(activity, query, Toast.LENGTH_LONG).show()
         viewModel.searchPlaceUsing(query)
         return true
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
         return true
+    }
+
+    fun choosePlace(view: View) {
+        selectedLocation?.let { selectedLocation?.let {
+            (activity as MainActivity)?.setLocationInSelectedTransaction(it)
+        }
+            findNavController().popBackStack()
+        }
+
+        Toast.makeText(activity, getString(R.string.select_place_error_message), Toast.LENGTH_SHORT).show()
     }
 }

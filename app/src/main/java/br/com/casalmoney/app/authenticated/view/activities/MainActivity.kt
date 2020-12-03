@@ -146,4 +146,9 @@ class MainActivity : AppCompatActivity() {
             it.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
     }
+
+    fun setLocationInSelectedTransaction(location: String) {
+        selectedTransaction?.location = location
+        //TODO: Update in api/local database
+    }
 }

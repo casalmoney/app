@@ -10,7 +10,7 @@ class SearchLocationRepository @Inject constructor(
 
 ) : BaseService() {
 
-    fun searchPlaceUsing(query: String) : Single<List<String>> {
-        return Single.just(null)
+    fun searchPlaceUsing(query: String) : Single<List<String>?> {
+        return just(null)
     }
 }

@@ -29,5 +29,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:context=".authenticated.view.fragments.SearchLocationFragment"/>
+        <Button
+            android:id="@+id/choosePlace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{fragment.choosePlace}"
+            android:text="@string/choose_place" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
