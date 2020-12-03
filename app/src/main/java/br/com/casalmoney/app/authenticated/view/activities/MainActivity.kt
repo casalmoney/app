@@ -1,11 +1,17 @@
 package br.com.casalmoney.app.authenticated.view.activities
 
-import android.content.DialogInterface
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,7 +21,6 @@ import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.system.exitProcess
 
 
 @AndroidEntryPoint
@@ -24,6 +29,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
 
     var selectedTransaction: Transaction? = null
+
+    var searchView: SearchView? = null
+    var iSearchView: SearchView.OnQueryTextListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +87,15 @@ class MainActivity : AppCompatActivity() {
                     }.setNegativeButton(R.string.no) {_, _ -> /* do nothing*/ }
                     .show()
             }
+            R.id.searchLocationFragment -> {
+                searchView?.let {
+                    if (!it.isIconified) {
+                        it.onActionViewCollapsed()
+                    } else {
+                        super.onBackPressed()
+                    }
+                }
+            }
             else -> {
                 super.onBackPressed()
             }
@@ -92,5 +109,41 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        when(navController.currentDestination?.id) {
+            R.id.searchLocationFragment -> {
+                searchStuffIn(menu)
+            }
+            else -> {
+                //do nothing
+            }
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun searchStuffIn(menu: Menu) {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+
+        searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+        searchView?.let {
+            it.setOnCloseListener { true }
+
+            val searchPlate = it.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
+            searchPlate.hint = getString(R.string.search)
+            val searchPlateView: View =
+                it.findViewById(androidx.appcompat.R.id.search_plate)
+            searchPlateView.setBackgroundColor(
+                ContextCompat.getColor(this, android.R.color.transparent)
+            )
+
+            it.setOnQueryTextListener(iSearchView)
+
+            val searchManager =
+                getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            it.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
     }
 }

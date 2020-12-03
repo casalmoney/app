@@ -1,39 +1,36 @@
 package br.com.casalmoney.app.authenticated.view.fragments
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-
+import br.com.casalmoney.app.R
+import br.com.casalmoney.app.authenticated.view.activities.MainActivity
+import br.com.casalmoney.app.authenticated.viewModel.SearchLocationViewModel
+import br.com.casalmoney.app.databinding.FragmentSearchLocationBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import br.com.casalmoney.app.R
-import br.com.casalmoney.app.authenticated.view.activities.MainActivity
-import br.com.casalmoney.app.authenticated.viewModel.SearchLocationViewModel
-import br.com.casalmoney.app.databinding.FragmentSearchLocationBinding
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 
 @AndroidEntryPoint
 @WithFragmentBindings
-class SearchLocationFragment : Fragment() {
+class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: FragmentSearchLocationBinding
 
@@ -56,6 +53,7 @@ class SearchLocationFragment : Fragment() {
         binding.viewModel = viewModel
         binding.fragment = this
         binding.lifecycleOwner = this
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -67,13 +65,16 @@ class SearchLocationFragment : Fragment() {
 
         startLocationManager()
         (activity as AppCompatActivity).supportActionBar?.title = (activity as? MainActivity)?.selectedTransaction?.title
+        (activity as? MainActivity)?.iSearchView = this
     }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
             val here = LatLng(location.latitude, location.longitude)
-            googleMap?.addMarker(MarkerOptions()
-                .position(here).title(getAddress(here)))?.showInfoWindow()
+            googleMap?.addMarker(
+                MarkerOptions()
+                    .position(here).title(getAddress(here))
+            )?.showInfoWindow()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 15f))
 
             locationManager?.removeUpdates(this)
@@ -110,7 +111,12 @@ class SearchLocationFragment : Fragment() {
                 }}
             return
         }
-        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+        locationManager?.requestLocationUpdates(
+            LocationManager.NETWORK_PROVIDER,
+            0L,
+            0f,
+            locationListener
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -123,5 +129,15 @@ class SearchLocationFragment : Fragment() {
         if (requestCode == LOCATION_PERMISSION_CODE) {
             startLocationManager()
         }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        Toast.makeText(activity, query, Toast.LENGTH_LONG).show()
+        viewModel.searchPlaceUsing(query)
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return true
     }
 }
