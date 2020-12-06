@@ -136,7 +136,6 @@ class ModalTransactionFragment : DialogFragment() {
         }
     }
 
-
     fun registerExpenses(view: View) {
         if(valueExpenses.isEmpty() || valueExpenses.isBlank()) {
             binding.textInputAmount.error = getString(R.string.alert_empty_field)

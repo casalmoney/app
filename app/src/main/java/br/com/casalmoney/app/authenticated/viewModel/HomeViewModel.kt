@@ -40,16 +40,15 @@ open class HomeViewModel @ViewModelInject constructor(
 
     val nameInitials: String
         get() {
-//            val initials = currentUser?.displayName.toString()
-//                .split(' ')
-//                .mapNotNull { it.firstOrNull()?.toString() }
-//                .reduce { acc, s -> acc + s }
-//            return if (initials.length == 1) {
-//                initials + initials
-//            } else {
-//                initials.substring(0, 2)
-//            }
-            return "Oi"
+            val initials = currentUser?.displayName.toString()
+                .split(' ')
+                .mapNotNull { it.firstOrNull()?.toString() }
+                .reduce { acc, s -> acc + s }
+            return if (initials.length == 1) {
+                initials + initials
+            } else {
+                initials.substring(0, 2)
+            }
         }
 
     fun getTransactions() {
@@ -69,7 +68,8 @@ open class HomeViewModel @ViewModelInject constructor(
         val mAmount = amount.replace("""[R$/\s/g.]""".toRegex(), "").replace(",", ".").toDouble()
 
         homeInteractor.saveTransaction(
-            TransactionEntity( explanation = typeExpense,
+            TransactionEntity(title = "",
+                explanation = typeExpense,
                 amount = mAmount,
                 date = Date().time.toString())
         )
@@ -86,7 +86,11 @@ open class HomeViewModel @ViewModelInject constructor(
         val simpleDateFormat = SimpleDateFormat(pattern)
 
         transactionList.value =  transactions.map {
-            Transaction(amount = formatToCurrency(it.amount), explanation = it.explanation, date = simpleDateFormat.format(Date(it.date.toLong())))
+            Transaction(
+                title = "",
+                amount = formatToCurrency(it.amount),
+                explanation = it.explanation,
+                date = simpleDateFormat.format(Date(it.date.toLong())))
         }
     }
 
@@ -102,8 +106,23 @@ open class HomeViewModel @ViewModelInject constructor(
         val maxDate = "$currentMonth/$lastDay/$currentYear"
         val minDate = "$currentMonth/01/$currentYear"
 
-        val currentTransactions = transactions.filter { it -> Date(it.date.toLong()).after(Date(minDate)) && Date(it.date.toLong()).before(Date(maxDate)) }
+        val currentTransactions = transactions.filter { it ->
+            Date(it.date.toLong()).after(Date(minDate)) && Date(it.date.toLong()).before(
+                Date(
+                    maxDate
+                )
+            )
+        }
         currentTransactions.map { total += it.amount.toDouble() }
         totalAmount.value = formatToCurrency(total.toString()).replace("""[R$]""".toRegex(), "")
+    }
+
+    fun saveTransaction(title: String, amount: String, typeExpense: String) {
+        homeInteractor.saveTransaction(
+            TransactionEntity(
+                title = title,
+                explanation =  typeExpense,
+                amount = amount.toDouble(),
+                date = Date().toString()))
     }
 }

@@ -22,7 +22,7 @@ class HomeRepository @Inject constructor(
         FirebaseAuth.getInstance().signOut()
     }
 
-    fun getTransactions(page: Int) : Single<List<Transaction>> {
+    fun getTransactions(page: Int): Single<List<Transaction>> {
         return getLocalTransactions()
     }
 
@@ -30,10 +30,34 @@ class HomeRepository @Inject constructor(
         return homeDAO.getTransactions()
             .map { transactios ->
                 val arr = mutableListOf<Transaction>()
-
                 transactios.map {it ->
-                    arr.add(Transaction(it.explanation, it.amount.toString(), it.date))
+                    arr.add(Transaction(it.title, it.explanation, it.amount.toString(), it.date))
                 }
+                //mock stuff
+                arr.add(
+                    Transaction(
+                        "Compra online",
+                        "Descrição do gasto",
+                        "10,00",
+                        "1343805819061"
+                    )
+                )
+                arr.add(
+                    Transaction(
+                        "Compra loja fisica",
+                        "Descrição do gasto",
+                        "10,00",
+                        "1343805819061"
+                    )
+                )
+                arr.add(
+                    Transaction(
+                        "Compra débito",
+                        "Descrição do gasto",
+                        "10,00",
+                        "1343805819061"
+                    )
+                )
                 arr.toList()
             }
             .subscribeOn(Schedulers.io())
@@ -41,6 +65,10 @@ class HomeRepository @Inject constructor(
     }
 
     fun saveTransactions(transaction: TransactionEntity) {
-      homeDAO.addTransaction(transaction)
+        homeDAO.addTransaction(transaction)
     }
+
+//    fun saveTransactions(transaction: Transaction) : Completable = Completable.fromCallable {
+//        homeDAO.addTransaction(TransactionEntity(title = transaction.title, explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))
+//    }
 }

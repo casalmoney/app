@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.casalmoney.app.R
+import br.com.casalmoney.app.authenticated.view.activities.MainActivity
 import br.com.casalmoney.app.authenticated.view.adapters.TransactionAdapter
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentHomeBinding
@@ -35,6 +36,7 @@ class HomeFragment: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private val progressDialog = CustomProgressDialog()
+    private var presentingProgressDialog: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,10 +61,14 @@ class HomeFragment: Fragment() {
 
     private fun setupLoading() {
         viewModel.disposable = viewModel.isLoading.subscribe { isLoading ->
-            if (isLoading) {
-                activity?.let { progressDialog.show(it) }
+            if (isLoading && !presentingProgressDialog) {
+                activity?.let {
+                    progressDialog.show(it)
+                    presentingProgressDialog = true
+                }
             } else {
                 progressDialog.dialog.dismiss()
+                presentingProgressDialog = false
             }
         }
     }
@@ -76,6 +82,9 @@ class HomeFragment: Fragment() {
         viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
             recyclerView.adapter = TransactionAdapter(list) {
                 viewModel.isLoading.onNext(false)
+                progressDialog.dialog.dismiss()
+                presentingProgressDialog = false
+                (activity as? MainActivity)?.selectedTransaction = it
                 findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
             }
         })
