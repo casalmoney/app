@@ -1,5 +1,6 @@
 package br.com.casalmoney.app.authenticated.interactor
 
+import br.com.casalmoney.app.authenticated.domain.News
 import br.com.casalmoney.app.authenticated.repository.HelpRepository
 import br.com.casalmoney.app.unauthenticated.domain.Message
 import br.com.casalmoney.app.unauthenticated.domain.MessageResult
@@ -15,6 +16,9 @@ open class HelpInteractor @Inject constructor(
     private val repository: HelpRepository
 ) {
 
+    fun getNews(): Single<List<News>> {
+        return repository.getNews()
+    }
 
 }
 

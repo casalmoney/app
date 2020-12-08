@@ -12,6 +12,7 @@
     <string name="recover_password_button_title">Enviar e-mail</string>
     <string name="forgot_password_button">Recuperar Senha</string>
     <string name="email_not_valid">Por favor insira um e-mail válido</string>
+    <string name="image">Imagem</string>
 
     <!--Required-->
     <string name="invalid_email">E-mail inválido</string>
