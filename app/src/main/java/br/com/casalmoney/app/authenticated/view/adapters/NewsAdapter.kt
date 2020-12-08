@@ -28,6 +28,7 @@ class NewsAdapter(
         val binding = holder.binding
         binding.news = newsList[position]
         binding.ivNews.load(newsList[position].image)
+        binding.notifyChange()
         binding.executePendingBindings()
     }
 
@@ -44,6 +45,4 @@ class NewsAdapter(
             }
         }
     }
-
-
 }
