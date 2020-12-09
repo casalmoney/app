@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 interface ChatRepositoryInterface {
     @FormUrlEncoded
-    @POST("message/text/send/")
+    @POST("chat")
     @Headers("content-type: application/x-www-form-urlencoded;charset=UTF-8")
     fun sendTextMessage(
         @Field("text") text: String,
