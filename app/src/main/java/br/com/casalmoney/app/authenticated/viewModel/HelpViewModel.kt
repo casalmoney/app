@@ -32,9 +32,9 @@ class HelpViewModel @ViewModelInject constructor(
 
     fun getNews() {
         disposable = helpInteractor.getNews().subscribe { list, error ->
-            if (error == null && list != null) {
-                newsList.value = list
-            }
+                if (error == null && list != null) {
+                    newsList.value = list
+                }
         }
     }
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,14 +16,16 @@ import br.com.casalmoney.app.R
 import br.com.casalmoney.app.databinding.FragmentRegisterBinding
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.viewmodel.RegisterViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.WithFragmentBindings
 
+@AndroidEntryPoint
+@WithFragmentBindings
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
 
-    private val viewModel: RegisterViewModel by lazy {
-        ViewModelProvider(this).get(RegisterViewModel::class.java)
-    }
+    private val viewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +61,7 @@ class RegisterFragment : Fragment() {
             Observer{
             if(it?.message.isNullOrEmpty() || it?.message.isNullOrBlank()) {
                 Toast.makeText(context, R.string.create_account_success_message, Toast.LENGTH_SHORT).show()
+                viewModel.saveInfos()
                 findNavController().navigate(R.id.action_registerFragment_to_mainActivity)
             } else {
                 Toast.makeText(context, it?.localizedMessage, Toast.LENGTH_SHORT).show()

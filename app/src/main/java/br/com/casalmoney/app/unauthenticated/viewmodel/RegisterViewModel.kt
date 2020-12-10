@@ -1,25 +1,30 @@
 package br.com.casalmoney.app.unauthenticated.viewmodel
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.text.TextUtils
 import android.util.Patterns
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import br.com.casalmoney.app.R
+import br.com.casalmoney.app.authenticated.interactor.HelpInteractor
 import br.com.casalmoney.app.unauthenticated.domain.User
 import br.com.casalmoney.app.unauthenticated.exception.SignupException
 import br.com.casalmoney.app.unauthenticated.interactor.RegisterInteractor
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 
-class RegisterViewModel(val app: Application) : AndroidViewModel(app) {
-
-    private val interactor = RegisterInteractor()
+class RegisterViewModel @ViewModelInject constructor(
+    val app: Application,
+    private val interactor: RegisterInteractor) : AndroidViewModel(app) {
 
     private val mCreateUser = MutableLiveData<SignupException?>()
     val responseCreateUser: LiveData<SignupException?> = mCreateUser
     val user = MutableLiveData(User())
+    private var disposable: Disposable? = null
 
     fun register() {
         if(!inputsRolesIsOk()) {
@@ -27,9 +32,22 @@ class RegisterViewModel(val app: Application) : AndroidViewModel(app) {
         }
 
         val obeserver = interactor.register(user.value!!)
-        obeserver.subscribe { result ->
+        disposable = obeserver.subscribe { result ->
             mCreateUser.value = result
         }
+
+
+    }
+
+    fun saveInfos() {
+        disposable = interactor.saveInfos(user.value!!).subscribe{list, error ->
+
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
     }
 
     private fun inputsRolesIsOk() : Boolean{

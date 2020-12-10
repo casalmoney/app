@@ -22,10 +22,11 @@ open class HomeViewModel @ViewModelInject constructor(
     var isLoading: PublishSubject<Boolean> = PublishSubject.create()
 
     private val page = MutableLiveData(1)
-    val currentUser = FirebaseAuth.getInstance().currentUser
     val transactionList = MutableLiveData<List<Transaction>>()
 
     val totalAmount = MutableLiveData<String>()
+    val nameInitials = MutableLiveData<String>()
+    val currentUser = MutableLiveData<String>()
 
     var disposable: Disposable? = null
 
@@ -38,19 +39,20 @@ open class HomeViewModel @ViewModelInject constructor(
         homeInteractor.logout()
     }
 
-    val nameInitials: String
-        get() {
-//            val initials = currentUser?.displayName.toString()
-//                .split(' ')
-//                .mapNotNull { it.firstOrNull()?.toString() }
-//                .reduce { acc, s -> acc + s }
-//            return if (initials.length == 1) {
-//                initials + initials
-//            } else {
-//                initials.substring(0, 2)
-//            }
-            return "Oi"
+    fun getUserDetails() {
+        nameInitials.value = "--"
+        currentUser.value = "--"
+        disposable = homeInteractor.getUserInfo().subscribe { user, error ->
+            if (user != null && error == null) {
+                nameInitials.value = user.initials
+                currentUser.value = user.name
+            } else {
+                nameInitials.value = "--"
+                currentUser.value = "--"
+            }
         }
+    }
+
 
     fun getTransactions() {
         isLoading.onNext(true)
@@ -69,29 +71,32 @@ open class HomeViewModel @ViewModelInject constructor(
         val mAmount = amount.replace("""[R$/\s/g.]""".toRegex(), "").replace(",", ".").toDouble()
 
         homeInteractor.saveTransaction(
-            TransactionEntity(title = "",
+            TransactionEntity(
+                title = "",
                 explanation = typeExpense,
                 amount = mAmount,
-                date = Date().time.toString())
+                date = Date().time.toString()
+            )
         )
     }
 
     fun formatToCurrency(p0: CharSequence?): String {
         val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
         val parsed = cleanString.toDouble()
-        return NumberFormat.getCurrencyInstance().format((parsed/100))
+        return NumberFormat.getCurrencyInstance().format((parsed / 100))
     }
 
     private fun setTransactionList(transactions: List<Transaction>) {
         val pattern = "dd/MM/yyyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
 
-        transactionList.value =  transactions.map {
+        transactionList.value = transactions.map {
             Transaction(
                 title = "",
                 amount = formatToCurrency(it.amount),
                 explanation = it.explanation,
-                date = simpleDateFormat.format(Date(it.date.toLong())))
+                date = simpleDateFormat.format(Date(it.date.toLong()))
+            )
         }
     }
 
@@ -122,8 +127,10 @@ open class HomeViewModel @ViewModelInject constructor(
         homeInteractor.saveTransaction(
             TransactionEntity(
                 title = title,
-                explanation =  typeExpense,
+                explanation = typeExpense,
                 amount = amount.toDouble(),
-                date = Date().toString()))
+                date = Date().toString()
+            )
+        )
     }
 }
