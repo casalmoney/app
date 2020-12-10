@@ -9,7 +9,7 @@ import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.databinding.ItemTransactionBinding
 
 class TransactionAdapter(
-    private val transactionList: List<Transaction>,
+    private var transactionList: List<Transaction>,
     private val onItemClick: ((Transaction) -> Unit)
 ): RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
@@ -25,6 +25,11 @@ class TransactionAdapter(
         val binding = holder.binding
         binding.transaction = transactionList[position]
         binding.executePendingBindings()
+    }
+
+    fun updateDataSet(transactions: List<Transaction>) {
+        transactionList = transactions
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = transactionList.size

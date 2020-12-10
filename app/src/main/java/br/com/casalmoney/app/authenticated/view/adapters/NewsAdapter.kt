@@ -10,7 +10,7 @@ import br.com.casalmoney.app.databinding.ItemNewsHelpBinding
 import coil.load
 
 class NewsAdapter(
-    private val newsList: List<News>,
+    private var newsList: List<News>,
     private val onItemClick: ((News) -> Unit)
 ) : RecyclerView.Adapter<NewsAdapter.ViewHolder>() {
 
@@ -34,6 +34,10 @@ class NewsAdapter(
 
     override fun getItemCount() = newsList.size
 
+    fun updateDataSet(news: List<News>) {
+        newsList = news
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.activities.MainActivity
 import br.com.casalmoney.app.authenticated.view.adapters.TransactionAdapter
@@ -39,6 +40,7 @@ class HomeFragment: Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyState: AppCompatImageView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     private val progressDialog = CustomProgressDialog()
     private var presentingProgressDialog: Boolean = false
@@ -62,7 +64,21 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getUserDetails()
         setupLoading()
+        setupBindings()
+        setupSwipeRefresh()
         setupRecyclerView()
+    }
+
+    private fun setupBindings() {
+        recyclerView = binding.recyclerViewTransactions
+        emptyState = binding.emptyState
+        swipeRefresh = binding.swipeRefresh
+    }
+
+    private fun setupSwipeRefresh() {
+        swipeRefresh.setOnRefreshListener {
+            viewModel.getTransactions()
+        }
     }
 
     private fun setupLoading() {
@@ -80,13 +96,13 @@ class HomeFragment: Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerView = binding.recyclerViewTransactions
-        emptyState = binding.emptyState
+
         val layoutManager = StaggeredGridLayoutManager(
             1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
-        viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
+        viewModel.transactionList.observe(viewLifecycleOwner, { list ->
+
             if (list.isEmpty()) {
                 emptyState.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
@@ -94,14 +110,20 @@ class HomeFragment: Fragment() {
                 emptyState.visibility = View.GONE
                 recyclerView.visibility = View.VISIBLE
 
-                recyclerView.adapter = TransactionAdapter(list) {
-                    viewModel.isLoading.onNext(false)
-                    progressDialog.dialog.dismiss()
-                    presentingProgressDialog = false
-                    (activity as? MainActivity)?.selectedTransaction = it
-                    findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
+                if(recyclerView.adapter == null) {
+                    recyclerView.adapter = TransactionAdapter(list) {
+                        viewModel.isLoading.onNext(false)
+                        progressDialog.dialog.dismiss()
+                        presentingProgressDialog = false
+                        (activity as? MainActivity)?.selectedTransaction = it
+                        findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
+                    }
+                } else {
+                    (recyclerView.adapter as? TransactionAdapter)?.updateDataSet(list)
                 }
             }
+
+            swipeRefresh.isRefreshing = false
         })
 
         viewModel.getTransactions()
