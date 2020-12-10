@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.adapters.NewsAdapter
 import br.com.casalmoney.app.authenticated.viewModel.HelpViewModel
@@ -26,6 +27,7 @@ class HelpFragment: Fragment() {
     private lateinit var binding: FragmentHelpBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var emptyState: AppCompatImageView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     private val progressDialog = CustomProgressDialog()
 
@@ -47,6 +49,8 @@ class HelpFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBindings()
+        setupSwipeRefresh()
         setupRecyclerView()
     }
 
@@ -54,24 +58,43 @@ class HelpFragment: Fragment() {
         findNavController().navigate(R.id.action_helpFragment_to_chatFragment)
     }
 
-    fun setupRecyclerView () {
+    fun setupBindings() {
         recyclerView = binding.rvNews
         emptyState = binding.emptyState
+        swipeRefresh = binding.swipeRefresh
+    }
+
+    fun setupSwipeRefresh() {
+        swipeRefresh.setOnRefreshListener {
+            viewModel.getNews()
+        }
+    }
+
+    fun setupRecyclerView () {
 
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
         viewModel.news.observe(viewLifecycleOwner, { list ->
+            swipeRefresh.isRefreshing = false
+
             if (list.isEmpty()) {
                 recyclerView.visibility = View.GONE
                 emptyState.visibility = View.VISIBLE
             } else {
                 recyclerView.visibility = View.VISIBLE
                 emptyState.visibility = View.GONE
-                recyclerView.adapter = NewsAdapter(list) {
-                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
-                    startActivity(browserIntent)
+
+                if (recyclerView.adapter == null) {
+                    recyclerView.adapter = NewsAdapter(list) {
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+                        startActivity(browserIntent)
+                    }
+                } else {
+                    recyclerView.adapter
                 }
+
+                swipeRefresh.isRefreshing = false
             }
         })
 
