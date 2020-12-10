@@ -18,13 +18,16 @@
         android:layout_height="match_parent"
         android:background="?attr/backgroundColor"
         tools:context=".authenticated.view.activities.MainActivity">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/empty_state"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/tab_statement_title"/>
+            android:src="@drawable/empty_state_image"
+            android:scaleType="centerInside" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
