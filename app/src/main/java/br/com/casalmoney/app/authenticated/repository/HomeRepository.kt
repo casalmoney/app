@@ -4,9 +4,12 @@ import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.domain.UserDetails
 import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyDatabase
 import br.com.casalmoney.app.authenticated.repository.local.database.HomeDAO
+import br.com.casalmoney.app.authenticated.repository.local.database.UserDao
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
+import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
 import br.com.casalmoney.app.authenticated.repository.service.UserInfoService
+import br.com.casalmoney.app.unauthenticated.domain.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserInfo
 import io.reactivex.Completable
@@ -20,7 +23,8 @@ class HomeRepository @Inject constructor(
     private val homeService: HomeService,
     private val userInfoService: UserInfoService,
     private val homeDAO: HomeDAO,
-) {
+    private val userDAO: UserDao,
+    ) {
 
     val mAuth = FirebaseAuth.getInstance()
 
@@ -80,6 +84,17 @@ class HomeRepository @Inject constructor(
             Schedulers.io()
         ).observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun getUserInfoLocale(): Single<List<UserEntity>> {
+        return userDAO.getUser().subscribeOn(
+            Schedulers.io()
+        ).observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun addUser(user: UserEntity) {
+        userDAO.addUser(user)
+    }
+
 
 //    fun saveTransactions(transaction: Transaction) : Completable = Completable.fromCallable {
 //        homeDAO.addTransaction(TransactionEntity(title = transaction.title, explanation = transaction.explanation, amount = transaction.amount, date = transaction.date))

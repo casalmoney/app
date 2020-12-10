@@ -4,6 +4,8 @@ import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.domain.UserDetails
 import br.com.casalmoney.app.authenticated.repository.HomeRepository
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
+import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
+import br.com.casalmoney.app.unauthenticated.domain.User
 import com.google.firebase.auth.UserInfo
 import io.reactivex.Single
 import javax.inject.Inject
@@ -28,4 +30,11 @@ class HomeInteractor @Inject constructor(
        return repository.getUserInfo()
     }
 
+    fun getUserInfoLocale(): Single<List<UserEntity>> {
+        return repository.getUserInfoLocale()
+    }
+
+    fun addUser(user: UserEntity) {
+        repository.addUser(user)
+    }
 }

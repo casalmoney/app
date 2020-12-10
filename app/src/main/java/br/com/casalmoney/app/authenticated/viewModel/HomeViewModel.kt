@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
+import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -42,17 +43,31 @@ open class HomeViewModel @ViewModelInject constructor(
     fun getUserDetails() {
         nameInitials.value = "--"
         currentUser.value = "--"
+
+        disposable = homeInteractor.getUserInfoLocale().subscribe { users, error ->
+            if (users != null && error == null) {
+                nameInitials.value = users[0].initials
+                currentUser.value = users[0].name
+            } else {
+                nameInitials.value = "--"
+                currentUser.value = "--"
+                getUserDetailsRemote()
+            }
+        }
+    }
+
+    fun getUserDetailsRemote() {
         disposable = homeInteractor.getUserInfo().subscribe { user, error ->
             if (user != null && error == null) {
                 nameInitials.value = user.initials
                 currentUser.value = user.name
+                homeInteractor.addUser(UserEntity(email = user.email, name = user.name, initials = user.initials))
             } else {
                 nameInitials.value = "--"
                 currentUser.value = "--"
             }
         }
     }
-
 
     fun getTransactions() {
         isLoading.onNext(true)

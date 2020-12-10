@@ -108,4 +108,8 @@ object CasalMoneyModule {
     @Singleton
     @Provides
     fun provideChatDao(database: CasalmoneyDatabase) = database.chatDAO()
+
+    @Singleton
+    @Provides
+    fun provideUserDao(database: CasalmoneyDatabase) = database.userDao()
 }
