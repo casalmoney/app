@@ -19,7 +19,6 @@ import br.com.casalmoney.app.utils.CustomProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 
-
 @AndroidEntryPoint
 @WithFragmentBindings
 class HelpFragment: Fragment() {

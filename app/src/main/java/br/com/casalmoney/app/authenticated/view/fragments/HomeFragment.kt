@@ -1,6 +1,7 @@
 package br.com.casalmoney.app.authenticated.view.fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,12 +50,13 @@ class HomeFragment: Fragment() {
         binding.fragment = this
         binding.lifecycleOwner = this
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.getUserDetails()
         setupLoading()
         setupRecyclerView()
     }

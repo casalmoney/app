@@ -8,7 +8,9 @@ import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyD
 import br.com.casalmoney.app.authenticated.repository.service.ChatService
 import br.com.casalmoney.app.authenticated.repository.service.HelpService
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
+import br.com.casalmoney.app.authenticated.repository.service.UserInfoService
 import br.com.casalmoney.app.unauthenticated.BusinessAudit
+import br.com.casalmoney.app.unauthenticated.service.RegisterService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,6 +82,12 @@ object CasalMoneyModule {
 
     @Provides
     fun providesChatService(retrofit: Retrofit): ChatService = retrofit.create(ChatService::class.java)
+
+    @Provides
+    fun providesRegisterService(retrofit: Retrofit): RegisterService = retrofit.create(RegisterService::class.java)
+
+    @Provides
+    fun providesUserInfoService(retrofit: Retrofit): UserInfoService = retrofit.create(UserInfoService::class.java)
 
     @Singleton
     @Provides

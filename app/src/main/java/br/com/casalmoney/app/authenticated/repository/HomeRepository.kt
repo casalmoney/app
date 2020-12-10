@@ -1,11 +1,14 @@
 package br.com.casalmoney.app.authenticated.repository
 
 import br.com.casalmoney.app.authenticated.domain.Transaction
+import br.com.casalmoney.app.authenticated.domain.UserDetails
 import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyDatabase
 import br.com.casalmoney.app.authenticated.repository.local.database.HomeDAO
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
+import br.com.casalmoney.app.authenticated.repository.service.UserInfoService
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserInfo
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -15,8 +18,12 @@ import javax.inject.Inject
 
 class HomeRepository @Inject constructor(
     private val homeService: HomeService,
+    private val userInfoService: UserInfoService,
     private val homeDAO: HomeDAO,
 ) {
+
+    val mAuth = FirebaseAuth.getInstance()
+
 
     fun logout() {
         FirebaseAuth.getInstance().signOut()
@@ -66,6 +73,12 @@ class HomeRepository @Inject constructor(
 
     fun saveTransactions(transaction: TransactionEntity) {
         homeDAO.addTransaction(transaction)
+    }
+
+    fun getUserInfo(): Single<UserDetails> {
+        return userInfoService.getUser(mAuth.currentUser!!.uid).subscribeOn(
+            Schedulers.io()
+        ).observeOn(AndroidSchedulers.mainThread())
     }
 
 //    fun saveTransactions(transaction: Transaction) : Completable = Completable.fromCallable {
