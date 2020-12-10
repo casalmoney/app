@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,8 @@ import dagger.hilt.android.WithFragmentBindings
 class HelpFragment: Fragment() {
     private lateinit var binding: FragmentHelpBinding
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyState: AppCompatImageView
+
     private val progressDialog = CustomProgressDialog()
 
     private val viewModel: HelpViewModel by viewModels()
@@ -54,13 +57,22 @@ class HelpFragment: Fragment() {
 
     fun setupRecyclerView () {
         recyclerView = binding.rvNews
+        emptyState = binding.emptyState
+
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
         viewModel.news.observe(viewLifecycleOwner, { list ->
-            recyclerView.adapter = NewsAdapter(list) {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
-                startActivity(browserIntent)
+            if (list.isEmpty()) {
+                recyclerView.visibility = View.GONE
+                emptyState.visibility = View.VISIBLE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                emptyState.visibility = View.GONE
+                recyclerView.adapter = NewsAdapter(list) {
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.url))
+                    startActivity(browserIntent)
+                }
             }
         })
 
