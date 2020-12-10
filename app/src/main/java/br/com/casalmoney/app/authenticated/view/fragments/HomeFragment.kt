@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -35,6 +37,8 @@ class HomeFragment: Fragment() {
     }
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var emptyState: AppCompatImageView
+
     private val progressDialog = CustomProgressDialog()
     private var presentingProgressDialog: Boolean = false
 
@@ -75,17 +79,26 @@ class HomeFragment: Fragment() {
 
     private fun setupRecyclerView() {
         recyclerView = binding.recyclerViewTransactions
+        emptyState = binding.emptyState
         val layoutManager = StaggeredGridLayoutManager(
             1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
         viewModel.transactionList.observe(viewLifecycleOwner, Observer { list ->
-            recyclerView.adapter = TransactionAdapter(list) {
-                viewModel.isLoading.onNext(false)
-                progressDialog.dialog.dismiss()
-                presentingProgressDialog = false
-                (activity as? MainActivity)?.selectedTransaction = it
-                findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
+            if (list.isEmpty()) {
+                emptyState.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                emptyState.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+
+                recyclerView.adapter = TransactionAdapter(list) {
+                    viewModel.isLoading.onNext(false)
+                    progressDialog.dialog.dismiss()
+                    presentingProgressDialog = false
+                    (activity as? MainActivity)?.selectedTransaction = it
+                    findNavController().navigate(R.id.action_homeFragment_to_transactionDetailFragment)
+                }
             }
         })
 
