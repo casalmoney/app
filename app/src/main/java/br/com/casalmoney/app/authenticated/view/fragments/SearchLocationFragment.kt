@@ -1,14 +1,17 @@
 package br.com.casalmoney.app.authenticated.view.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -20,12 +23,14 @@ import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.view.activities.MainActivity
 import br.com.casalmoney.app.authenticated.viewModel.SearchLocationViewModel
 import br.com.casalmoney.app.databinding.FragmentSearchLocationBinding
+import br.com.casalmoney.app.utils.NotificationCenter
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 
@@ -44,7 +49,7 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
     private var locationManager: LocationManager? = null
     private val LOCATION_PERMISSION_CODE = 6789
 
-    var selectedLocation: String? = null
+    var selectedLocation: br.com.casalmoney.app.authenticated.domain.Location? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,16 +74,24 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
         startLocationManager()
         (activity as AppCompatActivity).supportActionBar?.title = (activity as? MainActivity)?.selectedTransaction?.title
         (activity as? MainActivity)?.iSearchView = this
+        showSnackBarWithInstructions()
     }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
+
             val here = LatLng(location.latitude, location.longitude)
+            val description = getAddress(here)
             googleMap?.addMarker(
                 MarkerOptions()
-                    .position(here).title(getAddress(here))
+                    .position(here).title(description)
             )?.showInfoWindow()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(here, 15f))
+
+            selectedLocation = br.com.casalmoney.app.authenticated.domain.Location(
+                description = description,
+                latLng = here
+            )
 
             locationManager?.removeUpdates(this)
         }
@@ -89,6 +102,25 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
+
+        this.googleMap?.let {
+            it.setOnMapClickListener { latlng ->
+                // Clears the previously touched position
+                it.clear();
+                // Animating to the touched position
+                it.animateCamera(CameraUpdateFactory.newLatLng(latlng));
+
+                val description = getAddress(latlng)
+                val location = LatLng(latlng.latitude, latlng.longitude)
+                it.addMarker(
+                    MarkerOptions()
+                        .position(location)
+                        .title(description)
+                )?.showInfoWindow()
+                selectedLocation = br.com.casalmoney.app.authenticated.domain.Location(
+                    description = description, latLng = latlng)
+            }
+        }
     }
 
     private fun getAddress(latLong: LatLng): String {
@@ -149,11 +181,28 @@ class SearchLocationFragment : Fragment(), SearchView.OnQueryTextListener {
 
     fun choosePlace(view: View) {
         selectedLocation?.let { selectedLocation?.let {
-            (activity as MainActivity)?.setLocationInSelectedTransaction(it)
+            (activity as MainActivity).setLocationInSelectedTransaction(it)
         }
-            findNavController().popBackStack()
+            NotificationCenter.defaultCenter()?.postNotification("UpdateTransaction")
+            findNavController().popBackStack(R.id.transactionDetailFragment, false)
+            return
         }
-
         Toast.makeText(activity, getString(R.string.select_place_error_message), Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun showSnackBarWithInstructions() {
+        val snackBar = view?.let {
+            Snackbar.make(
+                it, getString(R.string.select_location_instructions),
+                Snackbar.LENGTH_LONG).setAction(R.string.ok, null)
+        }
+        snackBar?.setActionTextColor(R.color.brand_primary_color)
+        val snackBarView = snackBar?.view
+        snackBarView?.setBackgroundColor(Color.WHITE)
+        val textView =
+            snackBarView?.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        textView.setTextColor(R.color.brand_primary_color)
+        snackBar.show()
     }
 }

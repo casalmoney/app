@@ -22,6 +22,10 @@ class HomeInteractor @Inject constructor(
         return repository.getTransactions(page)
     }
 
+    fun updateTransaction(transaction: TransactionEntity?) {
+        return repository.updateTransaction(transaction)
+    }
+
     fun saveTransaction(transaction: TransactionEntity) {
         repository.saveTransactions(transaction)
     }

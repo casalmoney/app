@@ -5,5 +5,5 @@ data class Transaction(
     var explanation: String,
     var amount: String,
     var date: String,
-    var location: String? = null
+    var location: Location? = null
 )

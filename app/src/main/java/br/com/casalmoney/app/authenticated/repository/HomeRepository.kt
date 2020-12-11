@@ -5,6 +5,7 @@ import br.com.casalmoney.app.authenticated.domain.UserDetails
 import br.com.casalmoney.app.authenticated.repository.local.database.CasalmoneyDatabase
 import br.com.casalmoney.app.authenticated.repository.local.database.HomeDAO
 import br.com.casalmoney.app.authenticated.repository.local.database.UserDao
+import br.com.casalmoney.app.authenticated.repository.local.entity.LocationTypeConverter
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
 import br.com.casalmoney.app.authenticated.repository.service.HomeService
@@ -39,10 +40,16 @@ class HomeRepository @Inject constructor(
 
     private fun getLocalTransactions(): Single<List<Transaction>> {
         return homeDAO.getTransactions()
-            .map { transactios ->
+            .map { transactions ->
                 val arr = mutableListOf<Transaction>()
-                transactios.map {it ->
-                    arr.add(Transaction(it.title, it.explanation, it.amount.toString(), it.date))
+                transactions.map {it ->
+                    arr.add(
+                        Transaction(
+                            it.title,
+                            it.explanation,
+                            it.amount.toString(),
+                            it.date,
+                        LocationTypeConverter().stringToLocation(it.location)))
                 }
                 //mock stuff
                 arr.add(
@@ -77,6 +84,10 @@ class HomeRepository @Inject constructor(
 
     fun saveTransactions(transaction: TransactionEntity) {
         homeDAO.addTransaction(transaction)
+    }
+
+    fun updateTransaction(transaction: TransactionEntity?) {
+        transaction?.let { homeDAO.updateTransaction(it) }
     }
 
     fun getUserInfo(): Single<UserDetails> {

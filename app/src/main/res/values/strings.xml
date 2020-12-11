@@ -53,11 +53,15 @@
     <string name="save">Salvar</string>
 
     <string name="alert_empty_field">Preencha o campo</string>
-    <string name="location">Localização</string>
+    <string name="add_location">Onde esse gasto foi realizado?</string>
     <string name="close_app">Deseja fechar a aplicação?</string>
     <string name="search_places">Pesquise lugares</string>
     <string name="search">Pesquisar</string>
     <string name="choose_place">Escolher local</string>
     <string name="select_place_error_message">Você precisa selecionar um local antes</string>
-
+    <string name="here">Localização atual</string>
+    <string name="add_in_map">Buscar no mapa</string>
+    <string name="add_description">Adicionar manualmente</string>
+    <string name="select_location_instructions">Você pode selecionar qualquer lugar no mapa</string>
+    <string name="ok">OK</string>
 </resources>

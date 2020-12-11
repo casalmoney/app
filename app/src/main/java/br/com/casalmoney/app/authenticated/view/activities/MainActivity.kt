@@ -1,7 +1,9 @@
 package br.com.casalmoney.app.authenticated.view.activities
 
 import android.app.SearchManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,8 +20,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import br.com.casalmoney.app.R
+import br.com.casalmoney.app.authenticated.domain.Location
 import br.com.casalmoney.app.authenticated.domain.Transaction
+import br.com.casalmoney.app.authenticated.repository.service.HomeService
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -147,8 +157,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setLocationInSelectedTransaction(location: String) {
+    fun setLocationInSelectedTransaction(location: Location) {
         selectedTransaction?.location = location
-        //TODO: Update in api/local database
     }
+
+
 }

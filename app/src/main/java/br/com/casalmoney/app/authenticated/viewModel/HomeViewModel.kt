@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
+import br.com.casalmoney.app.authenticated.repository.local.entity.LocationTypeConverter
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
 import com.google.firebase.auth.FirebaseAuth
@@ -91,6 +92,18 @@ open class HomeViewModel @ViewModelInject constructor(
                 explanation = typeExpense,
                 amount = mAmount,
                 date = Date().time.toString()
+            )
+        )
+    }
+
+    fun updateTransaction(transaction: Transaction) {
+        homeInteractor.updateTransaction(
+            TransactionEntity(
+                title = transaction.title,
+                explanation = transaction.explanation,
+                amount = transaction.amount.toDouble(),
+                date = transaction.date,
+                location = LocationTypeConverter().locationToString(transaction.location)
             )
         )
     }
