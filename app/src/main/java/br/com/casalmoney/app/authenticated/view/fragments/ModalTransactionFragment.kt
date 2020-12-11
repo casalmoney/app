@@ -18,6 +18,7 @@ import androidx.fragment.app.viewModels
 import br.com.casalmoney.app.R
 import br.com.casalmoney.app.authenticated.viewModel.HomeViewModel
 import br.com.casalmoney.app.databinding.FragmentModalTransactionBinding
+import br.com.casalmoney.app.utils.extensions.CurrencyUtils
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 
@@ -65,7 +66,7 @@ class ModalTransactionFragment : DialogFragment() {
                 if(p0.toString() != auxValueExpenses){
                     binding.etAmountValue.removeTextChangedListener(this);
 
-                    val formatted = viewModel.formatToCurrency(p0)
+                    val formatted = CurrencyUtils().formatToCurrency(p0)
                     auxValueExpenses = formatted;
 
                     binding.etAmountValue.setText(formatted);

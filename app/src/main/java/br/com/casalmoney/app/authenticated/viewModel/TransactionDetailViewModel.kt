@@ -7,6 +7,8 @@ import br.com.casalmoney.app.authenticated.domain.Transaction
 import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import br.com.casalmoney.app.authenticated.repository.local.entity.LocationTypeConverter
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
+import br.com.casalmoney.app.utils.DateUtils
+import br.com.casalmoney.app.utils.extensions.CurrencyUtils
 
 class TransactionDetailViewModel @ViewModelInject constructor(
     val app: Application,
@@ -19,19 +21,13 @@ class TransactionDetailViewModel @ViewModelInject constructor(
         homeInteractor.updateTransaction(transaction =
         transaction?.let {
             TransactionEntity(
+                id = it.id,
                 title = it.title,
                 explanation = it.explanation,
-                amount = getAmountInDouble(it.amount),
-                date = it.date,
+                amount = CurrencyUtils().getAmountInDouble(it.amount),
+                date = DateUtils().convertDateToLong(it.date).toString(),
                 location = LocationTypeConverter().locationToString(it.location)
             )
         })
-    }
-
-    fun getAmountInDouble(amount: String) : Double {
-        return amount.toCharArray()
-            .filter { it.isDigit() }
-            .joinToString(separator = "")
-            .toDouble()
     }
 }

@@ -1,5 +1,6 @@
 package br.com.casalmoney.app.utils
 
+//REMOVE ASAP
 class NotificationCenter private constructor() {
     private val registredObjects: HashMap<String, ArrayList<Runnable>> = HashMap()
 

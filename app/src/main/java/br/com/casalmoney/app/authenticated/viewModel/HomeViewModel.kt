@@ -9,6 +9,8 @@ import br.com.casalmoney.app.authenticated.interactor.HomeInteractor
 import br.com.casalmoney.app.authenticated.repository.local.entity.LocationTypeConverter
 import br.com.casalmoney.app.authenticated.repository.local.entity.TransactionEntity
 import br.com.casalmoney.app.authenticated.repository.local.entity.UserEntity
+import br.com.casalmoney.app.utils.DateUtils
+import br.com.casalmoney.app.utils.extensions.CurrencyUtils
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -84,7 +86,7 @@ open class HomeViewModel @ViewModelInject constructor(
     }
 
     fun saveTransaction(amount: String, typeExpense: String) {
-        val mAmount = amount.replace("""[R$/\s/g.]""".toRegex(), "").replace(",", ".").toDouble()
+        val mAmount = CurrencyUtils().getAmountInDouble(amount)
 
         homeInteractor.saveTransaction(
             TransactionEntity(
@@ -102,16 +104,10 @@ open class HomeViewModel @ViewModelInject constructor(
                 title = transaction.title,
                 explanation = transaction.explanation,
                 amount = transaction.amount.toDouble(),
-                date = transaction.date,
+                date = DateUtils().convertDateToLong(transaction.date).toString(),
                 location = LocationTypeConverter().locationToString(transaction.location)
             )
         )
-    }
-
-    fun formatToCurrency(p0: CharSequence?): String {
-        val cleanString: String = p0.toString().replace("""[R$,./\s/g]""".toRegex(), "")
-        val parsed = cleanString.toDouble()
-        return NumberFormat.getCurrencyInstance().format((parsed / 100))
     }
 
     private fun setTransactionList(transactions: List<Transaction>) {
@@ -120,8 +116,9 @@ open class HomeViewModel @ViewModelInject constructor(
 
         transactionList.value = transactions.map {
             Transaction(
+                id = it.id,
                 title = "",
-                amount = formatToCurrency(it.amount),
+                amount = CurrencyUtils().formatToCurrency(it.amount),
                 explanation = it.explanation,
                 date = simpleDateFormat.format(Date(it.date.toLong()))
             )
@@ -148,7 +145,7 @@ open class HomeViewModel @ViewModelInject constructor(
             )
         }
         currentTransactions.map { total += it.amount.toDouble() }
-        totalAmount.value = formatToCurrency(total.toString()).replace("""[R$]""".toRegex(), "")
+        totalAmount.value = CurrencyUtils().formatToCurrency(total.toString()).replace("""[R$]""".toRegex(), "")
     }
 
     fun saveTransaction(title: String, amount: String, typeExpense: String) {
