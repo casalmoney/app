@@ -120,7 +120,8 @@ open class HomeViewModel @ViewModelInject constructor(
                 title = "",
                 amount = CurrencyUtils().formatToCurrency(it.amount),
                 explanation = it.explanation,
-                date = simpleDateFormat.format(Date(it.date.toLong()))
+                date = simpleDateFormat.format(Date(it.date.toLong())),
+                location = it.location
             )
         }
     }

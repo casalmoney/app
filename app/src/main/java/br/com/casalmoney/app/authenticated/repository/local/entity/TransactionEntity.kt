@@ -27,9 +27,7 @@ class LocationTypeConverter {
         if (string == null) {
             return null
         }
-        val location = object : TypeToken<Location>() {
-        }.type
-        return gson.fromJson(string, location)
+        return gson.fromJson(string, Location::class.java)
     }
 
     @TypeConverter
