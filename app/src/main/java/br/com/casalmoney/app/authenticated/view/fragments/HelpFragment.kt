@@ -30,6 +30,7 @@ class HelpFragment: Fragment() {
     private lateinit var swipeRefresh: SwipeRefreshLayout
 
     private val progressDialog = CustomProgressDialog()
+    private var presentingProgressDialog: Boolean = false
 
     private val viewModel: HelpViewModel by viewModels()
 
@@ -71,12 +72,19 @@ class HelpFragment: Fragment() {
     }
 
     fun setupRecyclerView () {
+        activity?.let {
+            progressDialog.show(it)
+            presentingProgressDialog = true
+        }
 
         val layoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layoutManager
 
         viewModel.news.observe(viewLifecycleOwner, { list ->
             swipeRefresh.isRefreshing = false
+
+            progressDialog.dialog.dismiss()
+            presentingProgressDialog = false
 
             if (list.isEmpty()) {
                 recyclerView.visibility = View.GONE

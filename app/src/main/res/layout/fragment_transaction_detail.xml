@@ -16,14 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/backgroundColor"
-        tools:context=".authenticated.view.activities.MainActivity">
+        tools:context=".authenticated.view.activities.MainActivity"
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@{viewModel.transaction.title}"
+            android:text="@{viewModel.transaction.explanation}"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,31 +36,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@{viewModel.transaction.location.description}"
-            android:textSize="24sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <TextView
-            android:id="@+id/explanation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@{viewModel.transaction.explanation}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_marginHorizontal="32dp"
+            android:textAlignment="center"/>
 
         <Button
             android:id="@+id/changeLocationButton"
             android:layout_width="match_parent"
             android:layout_marginHorizontal="32dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46dp"
             android:text="@string/add_location"
             android:onClick="@{fragment.changeLocation}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/explanation" />
+            app:layout_constraintTop_toBottomOf="@+id/location"
+            style="?attr/greenButtonStyle"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

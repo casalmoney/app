@@ -45,37 +45,13 @@ class HomeRepository @Inject constructor(
                 transactions.map {it ->
                     arr.add(
                         Transaction(
+                            it.id,
                             it.title,
                             it.explanation,
                             it.amount.toString(),
                             it.date,
                         LocationTypeConverter().stringToLocation(it.location)))
                 }
-                //mock stuff
-                arr.add(
-                    Transaction(
-                        "Compra online",
-                        "Descrição do gasto",
-                        "10,00",
-                        "1343805819061"
-                    )
-                )
-                arr.add(
-                    Transaction(
-                        "Compra loja fisica",
-                        "Descrição do gasto",
-                        "10,00",
-                        "1343805819061"
-                    )
-                )
-                arr.add(
-                    Transaction(
-                        "Compra débito",
-                        "Descrição do gasto",
-                        "10,00",
-                        "1343805819061"
-                    )
-                )
                 arr.toList()
             }
             .subscribeOn(Schedulers.io())
@@ -87,7 +63,9 @@ class HomeRepository @Inject constructor(
     }
 
     fun updateTransaction(transaction: TransactionEntity?) {
-        transaction?.let { homeDAO.updateTransaction(it) }
+        transaction?.let {
+            homeDAO.updateTransaction(it)
+        }
     }
 
     fun getUserInfo(): Single<UserDetails> {

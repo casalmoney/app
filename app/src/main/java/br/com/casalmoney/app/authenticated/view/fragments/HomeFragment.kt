@@ -69,6 +69,11 @@ class HomeFragment: Fragment() {
         setupRecyclerView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getTransactions()
+    }
+
     private fun setupBindings() {
         recyclerView = binding.recyclerViewTransactions
         emptyState = binding.emptyState
